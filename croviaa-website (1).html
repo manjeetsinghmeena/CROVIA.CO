@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Croviaa — Handmade Crochet, Made With Love</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,400..600&family=Inter:wght@400;500;600;700&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<style>
+  :root {
+    --linen: #FBF4EC;
+    --linen-deep: #F4E9DA;
+    --espresso: #3D2B1F;
+    --terracotta: #C16E4A;
+    --terracotta-deep: #A8593A;
+    --sage: #8A9A5B;
+    --sage-deep: #707D49;
+    --sand: #E8C4A0;
+    --cocoa: #7B4B33;
+    --cream-card: #FFFCF8;
+    --thread: #D9A876;
+    --error: #B3492F;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--linen);
+    color: var(--espresso);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+    position: relative;
+  }
+  body::before {
+    content: "";
+    position: fixed; inset: 0; pointer-events: none; opacity: 0.035; z-index: 1;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  h1, h2, h3, .display { font-family: 'Fraunces', serif; font-weight: 500; letter-spacing: -0.01em; color: var(--espresso); }
+  .script { font-family: 'Caveat', cursive; font-weight: 600; }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; border: none; background: none; cursor: pointer; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 32px; }
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* ============ NAV ============ */
+  nav { position: sticky; top: 0; z-index: 50; background: rgba(251, 244, 236, 0.92); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(61, 43, 31, 0.08); }
+  .nav-inner { max-width: 1180px; margin: 0 auto; padding: 18px 32px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+  .logo { display: flex; align-items: center; gap: 10px; font-size: 1.5rem; font-weight: 600; color: var(--espresso); cursor: pointer; }
+  .logo svg { width: 34px; height: 34px; flex-shrink: 0; }
+  .nav-links { display: flex; align-items: center; gap: 30px; font-size: 0.95rem; font-weight: 500; }
+  .nav-links a, .nav-links button { position: relative; padding: 4px 0; cursor: pointer; font-size: 0.95rem; font-weight: 500; color: var(--espresso); }
+  .nav-links a::after, .nav-links button::after { content: ""; position: absolute; left: 0; bottom: -2px; width: 0%; height: 2px; background: var(--terracotta); transition: width 0.25s ease; }
+  .nav-links a:hover::after, .nav-links button:hover::after { width: 100%; }
+  .nav-icons { display: flex; align-items: center; gap: 18px; }
+  .icon-btn { position: relative; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background 0.2s ease; }
+  .icon-btn:hover { background: rgba(61,43,31,0.06); }
+  .icon-btn svg { width: 21px; height: 21px; stroke: var(--espresso); }
+  .badge { position: absolute; top: 0px; right: 0px; background: var(--terracotta); color: var(--linen); font-size: 0.65rem; font-weight: 700; width: 17px; height: 17px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .badge.hide { display: none; }
+  .nav-toggle { display: none; }
+
+  /* ============ THREAD DIVIDER ============ */
+  .thread-divider { position: relative; height: 90px; width: 100%; z-index: 2; }
+  .thread-divider svg { width: 100%; height: 100%; display: block; }
+
+  /* ============ HERO ============ */
+  .hero { position: relative; padding: 90px 0 40px; z-index: 2; }
+  .hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 50px; align-items: center; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--cocoa); background: var(--sand); padding: 7px 16px; border-radius: 100px; margin-bottom: 22px; }
+  .hero h1 { font-size: clamp(2.6rem, 5vw, 3.8rem); line-height: 1.08; margin-bottom: 22px; }
+  .hero h1 .accent { color: var(--terracotta); font-style: italic; }
+  .hero p.lede { font-size: 1.15rem; line-height: 1.65; color: var(--cocoa); max-width: 480px; margin-bottom: 34px; }
+  .hero-actions { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+  .btn-primary { display: inline-flex; align-items: center; gap: 9px; background: var(--terracotta); color: var(--linen); padding: 15px 28px; border-radius: 100px; font-weight: 600; font-size: 1rem; transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease; box-shadow: 0 6px 18px rgba(193, 110, 74, 0.28); cursor: pointer; }
+  .btn-primary:hover { background: var(--terracotta-deep); transform: translateY(-2px); box-shadow: 0 10px 22px rgba(193,110,74,0.34); }
+  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .btn-primary svg { width: 18px; height: 18px; }
+  .btn-secondary { display: inline-flex; align-items: center; gap: 8px; color: var(--espresso); font-weight: 600; font-size: 1rem; padding: 15px 6px; border-bottom: 2px solid var(--espresso); transition: opacity 0.2s ease; cursor: pointer; }
+  .btn-secondary:hover { opacity: 0.65; }
+  .btn-outline { display: inline-flex; align-items: center; gap: 8px; background: transparent; border: 1.5px solid var(--espresso); color: var(--espresso); padding: 13px 24px; border-radius: 100px; font-weight: 600; font-size: 0.95rem; transition: all 0.2s ease; cursor: pointer; }
+  .btn-outline:hover { background: var(--espresso); color: var(--linen); }
+
+  .collage { position: relative; height: 460px; }
+  .polaroid { position: absolute; background: var(--cream-card); padding: 14px 14px 46px 14px; border-radius: 4px; box-shadow: 0 14px 30px rgba(61, 43, 31, 0.18); }
+  .polaroid .swatch { width: 100%; height: 100%; border-radius: 2px; display: flex; align-items: center; justify-content: center; }
+  .polaroid figcaption { font-family: 'Caveat', cursive; font-size: 1.15rem; color: var(--cocoa); text-align: center; margin-top: 8px; position: absolute; bottom: 12px; left: 0; right: 0; }
+  .p1 { width: 230px; height: 270px; top: 0; left: 30px; transform: rotate(-7deg); z-index: 3; }
+  .p2 { width: 200px; height: 240px; top: 60px; right: 10px; transform: rotate(6deg); z-index: 2; }
+  .p3 { width: 190px; height: 220px; bottom: 0; left: 100px; transform: rotate(4deg); z-index: 4; }
+  .stitch-ring { position: absolute; top: -28px; right: 60px; width: 92px; height: 92px; z-index: 5; }
+
+  /* ============ MARQUEE ============ */
+  .marquee-band { background: var(--espresso); color: var(--linen); padding: 16px 0; overflow: hidden; position: relative; z-index: 2; }
+  .marquee-track { display: flex; white-space: nowrap; animation: scroll-left 28s linear infinite; width: max-content; }
+  .marquee-track span { font-family: 'Fraunces', serif; font-style: italic; font-size: 1.05rem; padding: 0 28px; display: flex; align-items: center; gap: 28px; }
+  @keyframes scroll-left { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .marquee-track { animation: none; } }
+
+  /* ============ ABOUT ============ */
+  .about { padding: 110px 0; position: relative; z-index: 2; }
+  .about-grid { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 60px; align-items: center; }
+  .about-visual { background: var(--sand); border-radius: 18px; aspect-ratio: 4/5; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+  .section-label { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--terracotta-deep); margin-bottom: 14px; display: block; }
+  .about h2 { font-size: clamp(2rem, 3.4vw, 2.6rem); margin-bottom: 22px; line-height: 1.18; }
+  .about p { font-size: 1.05rem; line-height: 1.75; color: var(--cocoa); margin-bottom: 18px; max-width: 540px; }
+  .about-sign { font-family: 'Caveat', cursive; font-size: 1.6rem; color: var(--terracotta); margin-top: 8px; }
+
+  /* ============ SHOP ============ */
+  .shop { padding: 60px 0 110px; position: relative; z-index: 2; }
+  .shop-head { text-align: center; max-width: 620px; margin: 0 auto 50px; }
+  .shop-head h2 { font-size: clamp(2.1rem, 3.6vw, 2.7rem); margin-bottom: 16px; }
+  .shop-head p { color: var(--cocoa); font-size: 1.05rem; line-height: 1.6; }
+  .tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 46px; flex-wrap: wrap; }
+  .tab { padding: 10px 22px; border-radius: 100px; font-weight: 600; font-size: 0.92rem; background: var(--cream-card); border: 1px solid rgba(61,43,31,0.12); cursor: pointer; transition: all 0.2s ease; color: var(--espresso); }
+  .tab:hover { border-color: var(--terracotta); }
+  .tab.active { background: var(--espresso); color: var(--linen); border-color: var(--espresso); }
+  .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .card { background: var(--cream-card); border-radius: 16px; overflow: hidden; box-shadow: 0 4px 16px rgba(61, 43, 31, 0.06); transition: transform 0.25s ease, box-shadow 0.25s ease; display: flex; flex-direction: column; }
+  .card:hover { transform: translateY(-6px); box-shadow: 0 16px 32px rgba(61, 43, 31, 0.14); }
+  .card-art { height: 220px; display: flex; align-items: center; justify-content: center; position: relative; }
+  .wishlist-toggle { position: absolute; top: 14px; right: 14px; width: 36px; height: 36px; border-radius: 50%; background: rgba(255,252,248,0.9); display: flex; align-items: center; justify-content: center; transition: transform 0.15s ease; box-shadow: 0 3px 8px rgba(61,43,31,0.15); }
+  .wishlist-toggle:hover { transform: scale(1.1); }
+  .wishlist-toggle svg { width: 18px; height: 18px; stroke: var(--terracotta); fill: none; transition: fill 0.2s ease; }
+  .wishlist-toggle.active svg { fill: var(--terracotta); }
+  .card-body { padding: 20px 22px 24px; position: relative; }
+  .card-body h3 { font-size: 1.18rem; margin-bottom: 6px; }
+  .card-body .cat { font-size: 0.82rem; color: var(--sage-deep); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; display: block; }
+  .card-body p.desc { font-size: 0.92rem; color: var(--cocoa); line-height: 1.5; margin-bottom: 12px; }
+  .price-row { display: flex; align-items: center; justify-content: space-between; margin-top: 6px; }
+  .price { font-family: 'Fraunces', serif; font-size: 1.25rem; font-weight: 600; color: var(--espresso); }
+  .tag { position: absolute; top: -14px; left: 20px; background: var(--terracotta); color: var(--linen); font-family: 'Caveat', cursive; font-size: 1.05rem; font-weight: 600; padding: 5px 14px 5px 10px; border-radius: 3px; box-shadow: 0 4px 10px rgba(61,43,31,0.2); }
+  .tag::before { content: ""; position: absolute; left: 5px; top: 50%; width: 5px; height: 5px; background: var(--linen); border-radius: 50%; transform: translateY(-50%); }
+  .add-cart-btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; background: var(--espresso); color: var(--linen); padding: 11px 18px; border-radius: 100px; font-weight: 600; font-size: 0.88rem; width: 100%; margin-top: 14px; transition: background 0.2s ease; }
+  .add-cart-btn:hover { background: var(--terracotta-deep); }
+  .add-cart-btn svg { width: 15px; height: 15px; }
+  .add-cart-btn.added { background: var(--sage-deep); }
+
+  /* ============ PROCESS ============ */
+  .process { background: var(--linen-deep); padding: 100px 0; position: relative; z-index: 2; }
+  .process-head { text-align: center; margin-bottom: 60px; }
+  .process-head h2 { font-size: clamp(2rem, 3.4vw, 2.6rem); }
+  .process-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+  .process-step { text-align: center; padding: 0 14px; }
+  .step-icon { width: 76px; height: 76px; background: var(--cream-card); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 22px; box-shadow: 0 6px 16px rgba(61,43,31,0.1); }
+  .step-icon svg { width: 34px; height: 34px; }
+  .process-step h3 { font-size: 1.2rem; margin-bottom: 10px; }
+  .process-step p { font-size: 0.95rem; color: var(--cocoa); line-height: 1.6; max-width: 240px; margin: 0 auto; }
+
+  /* ============ TESTIMONIALS ============ */
+  .testimonials { padding: 110px 0; position: relative; z-index: 2; }
+  .testimonials-head { text-align: center; margin-bottom: 54px; }
+  .testimonials-head h2 { font-size: clamp(2rem, 3.4vw, 2.6rem); }
+  .quote-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+  .quote-card { background: var(--cream-card); border-radius: 16px; padding: 30px 26px; position: relative; border: 1px dashed rgba(193, 110, 74, 0.35); }
+  .quote-card .stars { color: var(--terracotta); font-size: 0.95rem; margin-bottom: 14px; letter-spacing: 2px; }
+  .quote-card p.quote { font-size: 1rem; line-height: 1.6; color: var(--espresso); margin-bottom: 18px; font-style: italic; }
+  .quote-who { display: flex; align-items: center; gap: 10px; }
+  .quote-avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--sand); display: flex; align-items: center; justify-content: center; font-family: 'Fraunces', serif; font-weight: 600; color: var(--cocoa); font-size: 0.95rem; }
+  .quote-who .name { font-weight: 600; font-size: 0.92rem; }
+  .quote-who .loc { font-size: 0.8rem; color: var(--cocoa); }
+
+  /* ============ CTA BAND ============ */
+  .cta-band { background: var(--terracotta); color: var(--linen); padding: 90px 0; text-align: center; position: relative; z-index: 2; }
+  .cta-band h2 { color: var(--linen); font-size: clamp(2.1rem, 4vw, 3rem); margin-bottom: 18px; }
+  .cta-band p { font-size: 1.1rem; opacity: 0.92; margin-bottom: 34px; }
+  .btn-light { display: inline-flex; align-items: center; gap: 10px; background: var(--linen); color: var(--terracotta-deep); padding: 16px 32px; border-radius: 100px; font-weight: 700; font-size: 1.05rem; transition: transform 0.2s ease, box-shadow 0.2s ease; box-shadow: 0 10px 26px rgba(61,43,31,0.22); cursor: pointer; }
+  .btn-light:hover { transform: translateY(-2px) scale(1.02); }
+  .btn-light svg { width: 20px; height: 20px; }
+
+  /* ============ FOOTER ============ */
+  footer { background: var(--espresso); color: var(--linen); padding: 64px 0 30px; position: relative; z-index: 2; }
+  .footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 50px; margin-bottom: 50px; }
+  .footer-logo { display: flex; align-items: center; gap: 10px; font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 600; margin-bottom: 14px; }
+  .footer-logo svg { width: 30px; height: 30px; }
+  footer .blurb { color: rgba(251,244,236,0.7); font-size: 0.92rem; line-height: 1.6; max-width: 300px; }
+  footer h4 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 18px; color: var(--sand); font-weight: 600; }
+  footer ul { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+  footer ul a, footer ul button { font-size: 0.92rem; color: rgba(251,244,236,0.78); transition: color 0.2s ease; }
+  footer ul a:hover, footer ul button:hover { color: var(--linen); }
+  .footer-bottom { border-top: 1px solid rgba(251,244,236,0.14); padding-top: 26px; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: rgba(251,244,236,0.55); flex-wrap: wrap; gap: 12px; }
+  .social-row { display: flex; gap: 14px; }
+  .social-row a { width: 36px; height: 36px; border-radius: 50%; background: rgba(251,244,236,0.1); display: flex; align-items: center; justify-content: center; transition: background 0.2s ease; }
+  .social-row a:hover { background: var(--terracotta); }
+  .social-row svg { width: 17px; height: 17px; }
+
+  /* ============ CART DRAWER ============ */
+  .overlay { position: fixed; inset: 0; background: rgba(61,43,31,0.4); z-index: 90; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+  .overlay.open { opacity: 1; pointer-events: all; }
+  .drawer { position: fixed; top: 0; right: 0; height: 100%; width: 420px; max-width: 92vw; background: var(--linen); z-index: 95; transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.22,1,0.36,1); display: flex; flex-direction: column; box-shadow: -10px 0 40px rgba(61,43,31,0.2); }
+  .drawer.open { transform: translateX(0); }
+  .drawer-head { display: flex; align-items: center; justify-content: space-between; padding: 24px 26px; border-bottom: 1px solid rgba(61,43,31,0.1); }
+  .drawer-head h3 { font-size: 1.4rem; }
+  .drawer-close { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background 0.2s ease; }
+  .drawer-close:hover { background: rgba(61,43,31,0.08); }
+  .drawer-close svg { width: 20px; height: 20px; }
+  .drawer-body { flex: 1; overflow-y: auto; padding: 20px 26px; }
+  .drawer-empty { text-align: center; padding: 60px 20px; color: var(--cocoa); }
+  .drawer-empty svg { width: 56px; height: 56px; stroke: var(--sand); margin-bottom: 16px; }
+  .drawer-empty p { font-size: 0.95rem; margin-bottom: 20px; }
+  .cart-item { display: flex; gap: 14px; padding: 16px 0; border-bottom: 1px solid rgba(61,43,31,0.08); }
+  .cart-item-art { width: 72px; height: 72px; border-radius: 10px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+  .cart-item-info { flex: 1; min-width: 0; }
+  .cart-item-info h4 { font-size: 0.98rem; font-weight: 600; margin-bottom: 3px; }
+  .cart-item-info .cat-tiny { font-size: 0.76rem; color: var(--sage-deep); font-weight: 600; text-transform: uppercase; }
+  .cart-item-bottom { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; }
+  .qty-control { display: flex; align-items: center; gap: 10px; background: var(--cream-card); border-radius: 100px; padding: 4px 8px; }
+  .qty-control button { width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 1rem; font-weight: 600; color: var(--espresso); border-radius: 50%; }
+  .qty-control button:hover { background: var(--sand); }
+  .qty-control span { font-size: 0.9rem; font-weight: 600; min-width: 16px; text-align: center; }
+  .cart-item-price { font-family: 'Fraunces', serif; font-weight: 600; font-size: 0.98rem; }
+  .remove-btn { color: var(--error); font-size: 0.78rem; font-weight: 600; margin-top: 8px; }
+  .drawer-footer { padding: 22px 26px 28px; border-top: 1px solid rgba(61,43,31,0.1); }
+  .subtotal-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; font-size: 1.05rem; }
+  .subtotal-row .amt { font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.3rem; }
+  .drawer-footer .btn-primary { width: 100%; justify-content: center; }
+  .ship-note { font-size: 0.78rem; color: var(--cocoa); text-align: center; margin-top: 12px; }
+
+  /* ============ WISHLIST VIEW ============ */
+  .page-section { padding: 70px 0 110px; min-height: 60vh; }
+  .page-head { text-align: center; max-width: 600px; margin: 0 auto 50px; }
+  .page-head h2 { font-size: clamp(2rem, 3.6vw, 2.7rem); margin-bottom: 14px; }
+  .page-head p { color: var(--cocoa); font-size: 1.02rem; }
+  .empty-state { text-align: center; padding: 60px 20px; }
+  .empty-state svg { width: 70px; height: 70px; stroke: var(--sand); margin-bottom: 20px; }
+  .empty-state p { color: var(--cocoa); margin-bottom: 24px; font-size: 1.02rem; }
+
+  /* ============ CHECKOUT VIEW ============ */
+  .checkout-grid { display: grid; grid-template-columns: 1.2fr 0.9fr; gap: 50px; align-items: start; }
+  .checkout-form { background: var(--cream-card); border-radius: 18px; padding: 34px 32px; }
+  .checkout-form h3 { font-size: 1.3rem; margin-bottom: 22px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .form-group { margin-bottom: 16px; display: flex; flex-direction: column; gap: 6px; }
+  .form-group label { font-size: 0.85rem; font-weight: 600; color: var(--cocoa); }
+  .form-group input, .form-group select { padding: 12px 14px; border-radius: 10px; border: 1.5px solid rgba(61,43,31,0.15); background: var(--linen); font-family: inherit; font-size: 0.95rem; color: var(--espresso); transition: border-color 0.2s ease; }
+  .form-group input:focus, .form-group select:focus { outline: none; border-color: var(--terracotta); }
+  .form-group input.error-field { border-color: var(--error); }
+  .field-error { font-size: 0.78rem; color: var(--error); display: none; }
+  .field-error.show { display: block; }
+  .order-summary { background: var(--cream-card); border-radius: 18px; padding: 30px 28px; position: sticky; top: 100px; }
+  .order-summary h3 { font-size: 1.2rem; margin-bottom: 20px; }
+  .summary-item { display: flex; justify-content: space-between; gap: 10px; font-size: 0.92rem; padding: 10px 0; border-bottom: 1px dashed rgba(61,43,31,0.12); }
+  .summary-item .sname { color: var(--espresso); font-weight: 500; }
+  .summary-item .sqty { color: var(--cocoa); font-size: 0.85rem; }
+  .summary-totals { margin-top: 18px; padding-top: 14px; border-top: 1px solid rgba(61,43,31,0.12); }
+  .summary-totals .srow { display: flex; justify-content: space-between; font-size: 0.92rem; margin-bottom: 8px; color: var(--cocoa); }
+  .summary-totals .srow.grand { font-size: 1.15rem; font-weight: 600; color: var(--espresso); margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(61,43,31,0.12); }
+  .summary-totals .grand .amt { font-family: 'Fraunces', serif; }
+  .pay-btn { width: 100%; justify-content: center; margin-top: 22px; }
+  .secure-note { display: flex; align-items: center; gap: 8px; justify-content: center; margin-top: 16px; font-size: 0.8rem; color: var(--cocoa); }
+  .secure-note svg { width: 14px; height: 14px; }
+  .test-mode-note { background: var(--sand); border-radius: 10px; padding: 12px 16px; font-size: 0.82rem; color: var(--cocoa); margin-top: 18px; line-height: 1.5; }
+
+  /* ============ TOAST ============ */
+  .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--espresso); color: var(--linen); padding: 14px 26px; border-radius: 100px; font-size: 0.92rem; font-weight: 500; z-index: 110; opacity: 0; pointer-events: none; transition: all 0.3s ease; display: flex; align-items: center; gap: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast svg { width: 18px; height: 18px; stroke: var(--sage); }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .hero-grid { grid-template-columns: 1fr; }
+    .collage { height: 340px; margin-top: 20px; }
+    .p1 { width: 170px; height: 200px; left: 10px; }
+    .p2 { width: 150px; height: 180px; right: 0; top: 30px; }
+    .p3 { width: 140px; height: 160px; left: 70px; bottom: -10px; }
+    .about-grid { grid-template-columns: 1fr; }
+    .about-visual { aspect-ratio: 16/10; }
+    .product-grid { grid-template-columns: repeat(2, 1fr); }
+    .process-grid { grid-template-columns: 1fr; gap: 46px; }
+    .quote-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; gap: 36px; }
+    .checkout-grid { grid-template-columns: 1fr; }
+    .order-summary { position: static; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .wrap { padding: 0 20px; }
+    .product-grid { grid-template-columns: 1fr; }
+    .hero { padding: 50px 0 20px; }
+    .logo span.txt { font-size: 1.25rem; }
+    .drawer { width: 100%; max-width: 100vw; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo" onclick="goHome(event)">
+      <svg viewBox="0 0 40 40" fill="none">
+        <circle cx="20" cy="20" r="19" fill="#C16E4A"/>
+        <path d="M11 22c0-6 4-10 9-10s9 4 9 10c0 3-2 5-5 5h-8c-3 0-5-2-5-5z" stroke="#FBF4EC" stroke-width="1.8" fill="none"/>
+        <path d="M14 20c2-2 4-2 6 0s4 2 6 0" stroke="#FBF4EC" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+        <path d="M14 24c2-2 4-2 6 0s4 2 6 0" stroke="#FBF4EC" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+      </svg>
+      <span class="txt">Croviaa</span>
+    </a>
+    <div class="nav-links">
+      <a href="#shop-section" onclick="goHome(event,'shop-section')">Shop</a>
+      <a href="#about" onclick="goHome(event,'about')">About</a>
+      <a href="#process" onclick="goHome(event,'process')">Custom Orders</a>
+      <a href="#reviews" onclick="goHome(event,'reviews')">Reviews</a>
+    </div>
+    <div class="nav-icons">
+      <button class="icon-btn" onclick="showView('wishlist')" aria-label="Wishlist">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 21s-7-4.5-9.5-9C0.7 8.4 2 5 5.3 4.2c2-.5 3.8.3 4.7 2 .9-1.7 2.7-2.5 4.7-2C18 5 19.3 8.4 17.5 12c-2.5 4.5-9.5 9-9.5 9z"/></svg>
+        <span class="badge hide" id="wishlistBadge">0</span>
+      </button>
+      <button class="icon-btn" onclick="openCart()" aria-label="Cart">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="9" cy="21" r="1.4"/><circle cx="19" cy="21" r="1.4"/><path d="M2.5 3h2l2.6 12.4a2 2 0 0 0 2 1.6h8.4a2 2 0 0 0 2-1.6L21 7H6"/></svg>
+        <span class="badge hide" id="cartBadge">0</span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HOME VIEW ============ -->
+<div class="view active" id="view-home">
+
+  <header class="hero" id="top">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">🧶 Small batch · Made to order</span>
+        <h1>Stitched with love,<br>one loop at a <span class="accent">time.</span></h1>
+        <p class="lede">Croviaa is a tiny crochet studio making cozy bags, wearables, and amigurumi friends — each piece hand-hooked, one at a time, just for you.</p>
+        <div class="hero-actions">
+          <button class="btn-primary" onclick="scrollToShop()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1.4"/><circle cx="19" cy="21" r="1.4"/><path d="M2.5 3h2l2.6 12.4a2 2 0 0 0 2 1.6h8.4a2 2 0 0 0 2-1.6L21 7H6"/></svg>
+            Shop the Collection
+          </button>
+          <button class="btn-secondary" onclick="scrollToShop()">Browse pieces ↓</button>
+        </div>
+      </div>
+      <div class="collage">
+        <svg class="stitch-ring" viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="42" stroke="#8A9A5B" stroke-width="3" stroke-dasharray="4 7" /></svg>
+        <figure class="polaroid p1">
+          <div class="swatch" style="background:linear-gradient(135deg,#E8C4A0,#C16E4A);">
+            <svg width="70" height="70" viewBox="0 0 70 70" fill="none"><path d="M15 30c0-10 9-18 20-18s20 8 20 18v20a4 4 0 0 1-4 4H19a4 4 0 0 1-4-4V30z" fill="#FBF4EC" opacity="0.85"/><path d="M22 30c4-4 8-4 13 0s9 4 13 0" stroke="#7B4B33" stroke-width="2" fill="none"/></svg>
+          </div>
+          <figcaption>granny square tote</figcaption>
+        </figure>
+        <figure class="polaroid p2">
+          <div class="swatch" style="background:linear-gradient(135deg,#8A9A5B,#707D49);">
+            <svg width="60" height="60" viewBox="0 0 60 60" fill="none"><circle cx="30" cy="24" r="14" fill="#FBF4EC" opacity="0.9"/><circle cx="24" cy="20" r="2" fill="#3D2B1F"/><circle cx="36" cy="20" r="2" fill="#3D2B1F"/><path d="M20 44c2-6 6-9 10-9s8 3 10 9" stroke="#FBF4EC" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.9"/></svg>
+          </div>
+          <figcaption>amigurumi bear</figcaption>
+        </figure>
+        <figure class="polaroid p3">
+          <div class="swatch" style="background:linear-gradient(135deg,#C16E4A,#A8593A);">
+            <svg width="60" height="60" viewBox="0 0 60 60" fill="none"><path d="M10 24c0-4 4-7 8-7h24c4 0 8 3 8 7v3H10v-3z" fill="#FBF4EC" opacity="0.9"/><rect x="8" y="27" width="44" height="22" rx="3" fill="#FBF4EC" opacity="0.75"/></svg>
+          </div>
+          <figcaption>sun hat</figcaption>
+        </figure>
+      </div>
+    </div>
+  </header>
+
+  <div class="thread-divider">
+    <svg viewBox="0 0 1200 90" preserveAspectRatio="none"><path d="M0,45 C150,10 300,80 450,45 C600,10 750,80 900,45 C1050,10 1150,60 1200,40" fill="none" stroke="#D9A876" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 9"/></svg>
+  </div>
+
+  <div class="marquee-band">
+    <div class="marquee-track">
+      <span>🧶 100% handmade &nbsp;•&nbsp; made-to-order &nbsp;•&nbsp; small batch crochet &nbsp;•&nbsp; every piece is one-of-one &nbsp;•&nbsp; 🧶 100% handmade &nbsp;•&nbsp; made-to-order &nbsp;•&nbsp; small batch crochet &nbsp;•&nbsp; every piece is one-of-one &nbsp;•&nbsp;</span>
+    </div>
+  </div>
+
+  <section class="about" id="about">
+    <div class="wrap about-grid">
+      <div class="about-visual">
+        <svg width="65%" viewBox="0 0 200 200" fill="none">
+          <circle cx="100" cy="100" r="70" fill="#C16E4A" opacity="0.15"/>
+          <path d="M60 110c0-25 18-45 40-45s40 20 40 45v35a8 8 0 0 1-8 8H68a8 8 0 0 1-8-8v-35z" fill="#C16E4A"/>
+          <path d="M72 108c8-8 16-8 28 0s20 8 28 0" stroke="#FBF4EC" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M72 122c8-8 16-8 28 0s20 8 28 0" stroke="#FBF4EC" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M72 136c8-8 16-8 28 0s20 8 28 0" stroke="#FBF4EC" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <circle cx="100" cy="60" r="6" fill="#7B4B33"/>
+        </svg>
+      </div>
+      <div>
+        <span class="section-label">The Maker's Note</span>
+        <h2>Every stitch has a story — and a little bit of patience.</h2>
+        <p>Croviaa started the way most cozy things do: with one hook, one ball of yarn, and way too much YouTube tutorial watching at 1am. What began as a quiet hobby turned into a tiny home studio making bags, wearables, and squishy little amigurumi friends for anyone who loves things made slowly and on purpose.</p>
+        <p>Nothing here is mass-produced. Every order is counted, looped, and tied off by hand — which means small wait times, but a piece that's really, truly yours.</p>
+        <p class="about-sign">— with love, the Croviaa hook & hands</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="shop" id="shop-section">
+    <div class="wrap">
+      <div class="shop-head">
+        <span class="section-label">The Shop</span>
+        <h2>Pick your cozy.</h2>
+        <p>A little bit of everything — bags to carry your day, wearables to keep you warm, and tiny creatures to keep you company. New pieces drop in small batches, so once it's gone, it's gone.</p>
+      </div>
+      <div class="tabs" id="tabs"></div>
+      <div class="product-grid" id="productGrid"></div>
+    </div>
+  </section>
+
+  <div class="thread-divider">
+    <svg viewBox="0 0 1200 90" preserveAspectRatio="none"><path d="M0,50 C150,85 300,15 450,50 C600,85 750,15 900,50 C1050,85 1150,30 1200,50" fill="none" stroke="#8A9A5B" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 9"/></svg>
+  </div>
+
+  <section class="process" id="process">
+    <div class="wrap">
+      <div class="process-head"><span class="section-label">How Ordering Works</span><h2>From cart to your doorstep.</h2></div>
+      <div class="process-grid">
+        <div class="process-step">
+          <div class="step-icon"><svg viewBox="0 0 40 40" fill="none"><circle cx="14" cy="32" r="2.4" fill="#C16E4A"/><circle cx="28" cy="32" r="2.4" fill="#C16E4A"/><path d="M5 7h4l4 20h18" stroke="#C16E4A" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M13 13h20l-2 11H16" stroke="#C16E4A" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h3>Add to cart</h3>
+          <p>Browse the shop, save favorites to your wishlist, and add what you love to your cart.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-icon"><svg viewBox="0 0 40 40" fill="none"><rect x="6" y="13" width="28" height="20" rx="3" stroke="#C16E4A" stroke-width="2.2" fill="none"/><path d="M6 18h28" stroke="#C16E4A" stroke-width="2.2"/><path d="M11 25h8" stroke="#C16E4A" stroke-width="2.2" stroke-linecap="round"/></svg></div>
+          <h3>Secure checkout</h3>
+          <p>Pay safely online with UPI, cards, or wallets — fast and encrypted.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-icon"><svg viewBox="0 0 40 40" fill="none"><path d="M8 20a12 12 0 1 1 24 0c0 6-5 10-12 14-7-4-12-8-12-14z" stroke="#C16E4A" stroke-width="2.2" fill="none"/></svg></div>
+          <h3>Made & shipped with love</h3>
+          <p>We hook your order by hand, package it cozily, and ship it straight to your door.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="testimonials" id="reviews">
+    <div class="wrap">
+      <div class="testimonials-head"><span class="section-label">Kind Words</span><h2>Loved by cozy people everywhere.</h2></div>
+      <div class="quote-grid">
+        <div class="quote-card"><div class="stars">★★★★★</div><p class="quote">The tote is even softer than it looked in photos. You can tell so much care went into it.</p><div class="quote-who"><div class="quote-avatar">P</div><div><div class="name">Priya M.</div><div class="loc">Jaipur</div></div></div></div>
+        <div class="quote-card"><div class="stars">★★★★★</div><p class="quote">Ordered a custom bear for my niece and the detail on the little paws was adorable.</p><div class="quote-who"><div class="quote-avatar">A</div><div><div class="name">Ananya S.</div><div class="loc">Delhi</div></div></div></div>
+        <div class="quote-card"><div class="stars">★★★★★</div><p class="quote">Checkout was so smooth, and the packaging made it feel like a gift to myself.</p><div class="quote-who"><div class="quote-avatar">R</div><div><div class="name">Riya K.</div><div class="loc">Mumbai</div></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="wrap">
+      <h2>Ready to cozy up?</h2>
+      <p>Browse the shop and find (or build) your perfect cart of handmade pieces.</p>
+      <button class="btn-light" onclick="scrollToShop()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1.4"/><circle cx="19" cy="21" r="1.4"/><path d="M2.5 3h2l2.6 12.4a2 2 0 0 0 2 1.6h8.4a2 2 0 0 0 2-1.6L21 7H6"/></svg>
+        Start Shopping
+      </button>
+    </div>
+  </section>
+</div>
+
+<!-- ============ WISHLIST VIEW ============ -->
+<div class="view" id="view-wishlist">
+  <section class="page-section">
+    <div class="wrap">
+      <div class="page-head">
+        <span class="section-label">Saved For Later</span>
+        <h2>Your Wishlist</h2>
+        <p>The pieces you've fallen for. Move them to your cart whenever you're ready.</p>
+      </div>
+      <div class="product-grid" id="wishlistGrid"></div>
+      <div class="empty-state" id="wishlistEmpty" style="display:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M12 21s-7-4.5-9.5-9C0.7 8.4 2 5 5.3 4.2c2-.5 3.8.3 4.7 2 .9-1.7 2.7-2.5 4.7-2C18 5 19.3 8.4 17.5 12c-2.5 4.5-9.5 9-9.5 9z"/></svg>
+        <p>Nothing saved yet — tap the heart on any piece to keep it here.</p>
+        <button class="btn-outline" onclick="showView('home'); scrollToShop();">Browse the Shop</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============ CHECKOUT VIEW ============ -->
+<div class="view" id="view-checkout">
+  <section class="page-section">
+    <div class="wrap">
+      <div class="page-head">
+        <span class="section-label">Almost There</span>
+        <h2>Checkout</h2>
+        <p>Pop in your details and we'll get your cozy pieces on their way.</p>
+      </div>
+      <div class="checkout-grid">
+        <div class="checkout-form">
+          <h3>Shipping Details</h3>
+          <form id="checkoutForm" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="fname">Full name</label>
+                <input type="text" id="fname" required>
+                <span class="field-error">Please enter your name</span>
+              </div>
+              <div class="form-group">
+                <label for="phone">Phone number</label>
+                <input type="tel" id="phone" required>
+                <span class="field-error">Please enter a valid phone number</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" required>
+              <span class="field-error">Please enter a valid email</span>
+            </div>
+            <div class="form-group">
+              <label for="address">Address</label>
+              <input type="text" id="address" placeholder="House no, street, area" required>
+              <span class="field-error">Please enter your address</span>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="city">City</label>
+                <input type="text" id="city" required>
+                <span class="field-error">Please enter your city</span>
+              </div>
+              <div class="form-group">
+                <label for="pincode">Pincode</label>
+                <input type="text" id="pincode" required>
+                <span class="field-error">Please enter a valid pincode</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="state">State</label>
+              <input type="text" id="state" required>
+              <span class="field-error">Please enter your state</span>
+            </div>
+          </form>
+        </div>
+        <div class="order-summary">
+          <h3>Order Summary</h3>
+          <div id="summaryItems"></div>
+          <div class="summary-totals">
+            <div class="srow"><span>Subtotal</span><span id="sumSubtotal">₹0</span></div>
+            <div class="srow"><span>Shipping</span><span id="sumShipping">₹0</span></div>
+            <div class="srow grand"><span>Total</span><span class="amt" id="sumTotal">₹0</span></div>
+          </div>
+          <button class="btn-primary pay-btn" id="payBtn" onclick="handlePayment()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg>
+            Pay Now
+          </button>
+          <div class="secure-note">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+            Secured checkout via Razorpay
+          </div>
+          <div class="test-mode-note">
+            🧪 <strong>Test mode:</strong> this checkout is running on Razorpay's test environment so you can try the full flow. No real payment is processed.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============ ORDER SUCCESS VIEW ============ -->
+<div class="view" id="view-success">
+  <section class="page-section">
+    <div class="wrap" style="max-width:560px; text-align:center; padding-top:30px;">
+      <svg width="90" height="90" viewBox="0 0 90 90" fill="none" style="margin:0 auto 26px;">
+        <circle cx="45" cy="45" r="42" fill="#8A9A5B" opacity="0.15"/>
+        <circle cx="45" cy="45" r="32" fill="#8A9A5B"/>
+        <path d="M30 46l10 10 20-20" stroke="#FBF4EC" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <h2 style="font-size:2rem; margin-bottom:14px;">Your order is on its way to being made!</h2>
+      <p style="color:var(--cocoa); font-size:1.02rem; line-height:1.6; margin-bottom:8px;">Order <strong id="orderIdDisplay">#CRV-0000</strong> has been placed. We'll start hooking your pieces by hand and email you once it ships.</p>
+      <button class="btn-primary" style="margin-top:24px;" onclick="showView('home')">Back to Shop</button>
+    </div>
+  </section>
+</div>
+
+<!-- ============ FOOTER (shown on home only) ============ -->
+<footer id="mainFooter">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">
+          <svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="19" fill="#C16E4A"/><path d="M11 22c0-6 4-10 9-10s9 4 9 10c0 3-2 5-5 5h-8c-3 0-5-2-5-5z" stroke="#FBF4EC" stroke-width="1.8" fill="none"/></svg>
+          Croviaa
+        </div>
+        <p class="blurb">Handmade crochet bags, wearables, and amigurumi — made slowly, with love, one loop at a time.</p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="#" onclick="goHome(event,'shop-section')">Shop</a></li>
+          <li><a href="#" onclick="goHome(event,'about')">About</a></li>
+          <li><button onclick="showView('wishlist')">Wishlist</button></li>
+          <li><a href="#" onclick="goHome(event,'reviews')">Reviews</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Get in touch</h4>
+        <ul>
+          <li><a href="https://www.instagram.com/croviaa.co" target="_blank">@croviaa.co</a></li>
+          <li><a href="#">Made in India</a></li>
+          <li><a href="#">Ships nationwide</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Croviaa. All pieces handmade with love.</span>
+      <div class="social-row">
+        <a href="https://www.instagram.com/croviaa.co" target="_blank" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#FBF4EC" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="#FBF4EC"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ CART DRAWER ============ -->
+<div class="overlay" id="overlay" onclick="closeCart()"></div>
+<div class="drawer" id="cartDrawer">
+  <div class="drawer-head">
+    <h3>Your Cart</h3>
+    <button class="drawer-close" onclick="closeCart()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+  </div>
+  <div class="drawer-body" id="drawerBody"></div>
+  <div class="drawer-footer" id="drawerFooter" style="display:none;">
+    <div class="subtotal-row"><span>Subtotal</span><span class="amt" id="drawerSubtotal">₹0</span></div>
+    <button class="btn-primary" onclick="goToCheckout()">Proceed to Checkout</button>
+    <p class="ship-note">Shipping & taxes calculated at checkout</p>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============ PRODUCT DATA ============ */
+const PRODUCTS = [
+  { id:'p1', cat:'bags', name:'Granny Square Tote', desc:"Roomy market tote in warm clay tones, lined for everyday wear.", price:1299, tag:'cozy pick', gradient:'linear-gradient(135deg,#E8C4A0,#C16E4A)', icon:'bag' },
+  { id:'p2', cat:'amigurumi', name:'Little Bear Friend', desc:'A squishy 6" bear made to be hugged, gifted, or shelf-displayed.', price:899, tag:null, gradient:'linear-gradient(135deg,#8A9A5B,#707D49)', icon:'bear' },
+  { id:'p3', cat:'wearables', name:'Sunbeam Bucket Hat', desc:'Breathable cotton-blend hat, perfect for golden-hour walks.', price:749, tag:'limited', gradient:'linear-gradient(135deg,#C16E4A,#A8593A)', icon:'hat' },
+  { id:'p4', cat:'wearables', name:'Wavy Scarf', desc:'Long, drapey scarf with a soft wave texture stitch.', price:999, tag:null, gradient:'linear-gradient(135deg,#E8C4A0,#8A9A5B)', icon:'scarf' },
+  { id:'p5', cat:'bags', name:'Mini Pouch Duo', desc:'Set of two coin pouches — perfect for cards, keys, or lip balm.', price:549, tag:null, gradient:'linear-gradient(135deg,#707D49,#3D2B1F)', icon:'pouch' },
+  { id:'p6', cat:'amigurumi', name:'Tiny Fox Keychain', desc:'A pocket-sized fox friend to clip onto your bag or keys.', price:399, tag:'cozy pick', gradient:'linear-gradient(135deg,#C16E4A,#E8C4A0)', icon:'fox' },
+];
+
+const ICONS = {
+  bag: `<svg width="70" height="70" viewBox="0 0 70 70" fill="none"><path d="M15 30c0-10 9-18 20-18s20 8 20 18v20a4 4 0 0 1-4 4H19a4 4 0 0 1-4-4V30z" fill="#FBF4EC" opacity="0.85"/><path d="M22 30c4-4 8-4 13 0s9 4 13 0" stroke="#7B4B33" stroke-width="2" fill="none"/></svg>`,
+  bear: `<svg width="60" height="60" viewBox="0 0 60 60" fill="none"><circle cx="30" cy="24" r="14" fill="#FBF4EC" opacity="0.9"/><circle cx="24" cy="20" r="2" fill="#3D2B1F"/><circle cx="36" cy="20" r="2" fill="#3D2B1F"/><path d="M20 44c2-6 6-9 10-9s8 3 10 9" stroke="#FBF4EC" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.9"/></svg>`,
+  hat: `<svg width="60" height="60" viewBox="0 0 60 60" fill="none"><path d="M10 24c0-4 4-7 8-7h24c4 0 8 3 8 7v3H10v-3z" fill="#FBF4EC" opacity="0.9"/><rect x="8" y="27" width="44" height="22" rx="3" fill="#FBF4EC" opacity="0.75"/></svg>`,
+  scarf: `<svg width="80" height="20" viewBox="0 0 100 20" fill="none"><rect x="0" y="0" width="100" height="20" rx="10" fill="#FBF4EC"/><path d="M5 10c4-4 8-4 12 0s8 4 12 0 8-4 12 0 8 4 12 0 8-4 12 0 8 4 12 0 8-4 12 0" stroke="#7B4B33" stroke-width="1.4" fill="none"/></svg>`,
+  pouch: `<svg width="80" height="90" viewBox="0 0 80 90" fill="none"><rect x="15" y="25" width="50" height="55" rx="8" fill="#FBF4EC"/><path d="M27 25v-6a13 13 0 0 1 26 0v6" stroke="#FBF4EC" stroke-width="4" fill="none"/></svg>`,
+  fox: `<svg width="80" height="80" viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="22" fill="#FBF4EC"/><path d="M40 18c10 0 14 8 14 8s-9-2-14 2-14-2-14-2 4-8 14-8z" fill="#FBF4EC"/><circle cx="33" cy="38" r="2.5" fill="#3D2B1F"/><circle cx="47" cy="38" r="2.5" fill="#3D2B1F"/></svg>`,
+};
+
+const CATS = [
+  { key:'all', label:'All' },
+  { key:'bags', label:'Bags & Totes' },
+  { key:'wearables', label:'Wearables' },
+  { key:'amigurumi', label:'Amigurumi' },
+];
+
+/* ============ STATE ============ */
+let cart = {};      // { productId: qty }
+let wishlist = new Set();
+let activeFilter = 'all';
+const SHIPPING_FLAT = 79;
+
+/* ============ RENDER: TABS + PRODUCT GRID ============ */
+function renderTabs() {
+  const tabsEl = document.getElementById('tabs');
+  tabsEl.innerHTML = CATS.map(c => `<div class="tab ${c.key===activeFilter?'active':''}" data-filter="${c.key}">${c.label}</div>`).join('');
+  tabsEl.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => { activeFilter = tab.dataset.filter; renderTabs(); renderProductGrid(); });
+  });
+}
+
+function productCardHTML(p) {
+  const inCart = cart[p.id] > 0;
+  const wished = wishlist.has(p.id);
+  return `
+    <div class="card" data-cat="${p.cat}">
+      <div class="card-art" style="background:${p.gradient};">
+        ${p.tag ? `<span class="tag">${p.tag}</span>` : ''}
+        <button class="wishlist-toggle ${wished?'active':''}" onclick="toggleWishlist('${p.id}')" aria-label="Save to wishlist">
+          <svg viewBox="0 0 24 24" stroke-width="2"><path d="M12 21s-7-4.5-9.5-9C0.7 8.4 2 5 5.3 4.2c2-.5 3.8.3 4.7 2 .9-1.7 2.7-2.5 4.7-2C18 5 19.3 8.4 17.5 12c-2.5 4.5-9.5 9-9.5 9z"/></svg>
+        </button>
+        ${ICONS[p.icon]}
+      </div>
+      <div class="card-body">
+        <span class="cat">${p.cat}</span>
+        <h3>${p.name}</h3>
+        <p class="desc">${p.desc}</p>
+        <div class="price-row"><span class="price">₹${p.price}</span></div>
+        <button class="add-cart-btn ${inCart?'added':''}" onclick="addToCart('${p.id}')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1.4"/><circle cx="19" cy="21" r="1.4"/><path d="M2.5 3h2l2.6 12.4a2 2 0 0 0 2 1.6h8.4a2 2 0 0 0 2-1.6L21 7H6"/></svg>
+          ${inCart ? `In Cart (${cart[p.id]})` : 'Add to Cart'}
+        </button>
+      </div>
+    </div>`;
+}
+
+function renderProductGrid() {
+  const grid = document.getElementById('productGrid');
+  const items = PRODUCTS.filter(p => activeFilter==='all' || p.cat===activeFilter);
+  grid.innerHTML = items.map(productCardHTML).join('');
+}
+
+/* ============ RENDER: WISHLIST PAGE ============ */
+function renderWishlistGrid() {
+  const grid = document.getElementById('wishlistGrid');
+  const empty = document.getElementById('wishlistEmpty');
+  const items = PRODUCTS.filter(p => wishlist.has(p.id));
+  if (items.length === 0) {
+    grid.style.display = 'none';
+    empty.style.display = 'block';
+  } else {
+    grid.style.display = 'grid';
+    empty.style.display = 'none';
+    grid.innerHTML = items.map(productCardHTML).join('');
+  }
+}
+
+/* ============ WISHLIST LOGIC ============ */
+function toggleWishlist(id) {
+  if (wishlist.has(id)) { wishlist.delete(id); showToast('Removed from wishlist', 'heart'); }
+  else { wishlist.add(id); showToast('Saved to wishlist', 'heart'); }
+  updateWishlistBadge();
+  renderProductGrid();
+  if (document.getElementById('view-wishlist').classList.contains('active')) renderWishlistGrid();
+}
+
+function updateWishlistBadge() {
+  const badge = document.getElementById('wishlistBadge');
+  badge.textContent = wishlist.size;
+  badge.classList.toggle('hide', wishlist.size === 0);
+}
+
+/* ============ CART LOGIC ============ */
+function addToCart(id) {
+  cart[id] = (cart[id] || 0) + 1;
+  updateCartBadge();
+  renderProductGrid();
+  if (document.getElementById('view-wishlist').classList.contains('active')) renderWishlistGrid();
+  renderDrawer();
+  showToast('Added to cart', 'cart');
+}
+
+function changeQty(id, delta) {
+  if (!cart[id]) return;
+  cart[id] += delta;
+  if (cart[id] <= 0) delete cart[id];
+  updateCartBadge();
+  renderDrawer();
+  renderProductGrid();
+  if (document.getElementById('view-checkout').classList.contains('active')) renderCheckoutSummary();
+}
+
+function removeFromCart(id) {
+  delete cart[id];
+  updateCartBadge();
+  renderDrawer();
+  renderProductGrid();
+  if (document.getElementById('view-checkout').classList.contains('active')) renderCheckoutSummary();
+}
+
+function cartCount() { return Object.values(cart).reduce((a,b)=>a+b,0); }
+function cartSubtotal() {
+  return Object.entries(cart).reduce((sum,[id,qty]) => {
+    const p = PRODUCTS.find(pr=>pr.id===id);
+    return sum + (p ? p.price*qty : 0);
+  }, 0);
+}
+
+function updateCartBadge() {
+  const badge = document.getElementById('cartBadge');
+  const count = cartCount();
+  badge.textContent = count;
+  badge.classList.toggle('hide', count === 0);
+}
+
+function renderDrawer() {
+  const body = document.getElementById('drawerBody');
+  const footer = document.getElementById('drawerFooter');
+  const entries = Object.entries(cart);
+  if (entries.length === 0) {
+    body.innerHTML = `
+      <div class="drawer-empty">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><circle cx="9" cy="21" r="1.4"/><circle cx="19" cy="21" r="1.4"/><path d="M2.5 3h2l2.6 12.4a2 2 0 0 0 2 1.6h8.4a2 2 0 0 0 2-1.6L21 7H6"/></svg>
+        <p>Your cart is feeling a little empty.</p>
+        <button class="btn-outline" onclick="closeCart(); scrollToShop();">Browse the Shop</button>
+      </div>`;
+    footer.style.display = 'none';
+    return;
+  }
+  footer.style.display = 'block';
+  body.innerHTML = entries.map(([id,qty]) => {
+    const p = PRODUCTS.find(pr=>pr.id===id);
+    return `
+      <div class="cart-item">
+        <div class="cart-item-art" style="background:${p.gradient};">${ICONS[p.icon].replace(/width="\d+" height="\d+"/, 'width="38" height="38"')}</div>
+        <div class="cart-item-info">
+          <span class="cat-tiny">${p.cat}</span>
+          <h4>${p.name}</h4>
+          <div class="cart-item-bottom">
+            <div class="qty-control">
+              <button onclick="changeQty('${id}',-1)">−</button>
+              <span>${qty}</span>
+              <button onclick="changeQty('${id}',1)">+</button>
+            </div>
+            <span class="cart-item-price">₹${p.price*qty}</span>
+          </div>
+          <button class="remove-btn" onclick="removeFromCart('${id}')">Remove</button>
+        </div>
+      </div>`;
+  }).join('');
+  document.getElementById('drawerSubtotal').textContent = `₹${cartSubtotal()}`;
+}
+
+/* ============ CART DRAWER OPEN/CLOSE ============ */
+function openCart() {
+  renderDrawer();
+  document.getElementById('cartDrawer').classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+}
+function closeCart() {
+  document.getElementById('cartDrawer').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+}
+
+/* ============ VIEW SWITCHING ============ */
+function showView(name) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-'+name).classList.add('active');
+  document.getElementById('mainFooter').style.display = (name==='home') ? 'block' : 'none';
+  closeCart();
+  window.scrollTo({top:0, behavior:'instant'});
+  if (name === 'wishlist') renderWishlistGrid();
+  if (name === 'checkout') renderCheckoutSummary();
+}
+
+function goHome(e, scrollId) {
+  e.preventDefault();
+  showView('home');
+  if (scrollId) {
+    setTimeout(() => {
+      const el = document.getElementById(scrollId);
+      if (el) el.scrollIntoView({behavior:'smooth'});
+    }, 50);
+  }
+}
+
+function scrollToShop() {
+  showView('home');
+  setTimeout(() => {
+    document.getElementById('shop-section').scrollIntoView({behavior:'smooth'});
+  }, 50);
+}
+
+function goToCheckout() {
+  if (cartCount() === 0) return;
+  closeCart();
+  showView('checkout');
+}
+
+/* ============ CHECKOUT SUMMARY ============ */
+function renderCheckoutSummary() {
+  const itemsEl = document.getElementById('summaryItems');
+  const entries = Object.entries(cart);
+  itemsEl.innerHTML = entries.map(([id,qty]) => {
+    const p = PRODUCTS.find(pr=>pr.id===id);
+    return `<div class="summary-item"><span class="sname">${p.name} <span class="sqty">×${qty}</span></span><span>₹${p.price*qty}</span></div>`;
+  }).join('');
+  const subtotal = cartSubtotal();
+  const shipping = entries.length ? SHIPPING_FLAT : 0;
+  document.getElementById('sumSubtotal').textContent = `₹${subtotal}`;
+  document.getElementById('sumShipping').textContent = `₹${shipping}`;
+  document.getElementById('sumTotal').textContent = `₹${subtotal+shipping}`;
+  document.getElementById('payBtn').disabled = entries.length === 0;
+}
+
+/* ============ FORM VALIDATION ============ */
+function validateCheckoutForm() {
+  const fields = [
+    {id:'fname', test: v => v.trim().length > 1},
+    {id:'phone', test: v => /^[6-9]\d{9}$/.test(v.trim())},
+    {id:'email', test: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim())},
+    {id:'address', test: v => v.trim().length > 4},
+    {id:'city', test: v => v.trim().length > 1},
+    {id:'pincode', test: v => /^\d{6}$/.test(v.trim())},
+    {id:'state', test: v => v.trim().length > 1},
+  ];
+  let valid = true;
+  fields.forEach(f => {
+    const input = document.getElementById(f.id);
+    const errorEl = input.parentElement.querySelector('.field-error');
+    const ok = f.test(input.value);
+    input.classList.toggle('error-field', !ok);
+    errorEl.classList.toggle('show', !ok);
+    if (!ok) valid = false;
+  });
+  return valid;
+}
+
+/* ============ PAYMENT (Razorpay test mode) ============ */
+function handlePayment() {
+  if (cartCount() === 0) return;
+  if (!validateCheckoutForm()) {
+    showToast("Please check the highlighted fields", 'error');
+    return;
+  }
+  const subtotal = cartSubtotal();
+  const total = subtotal + SHIPPING_FLAT;
+  const name = document.getElementById('fname').value;
+  const email = document.getElementById('email').value;
+  const phone = document.getElementById('phone').value;
+
+  // NOTE: This uses Razorpay's published TEST key so the checkout widget
+  // can be demoed end-to-end. A real launch needs your own Razorpay key
+  // plus a backend to create orders & verify payment signatures (see note below).
+  const options = {
+    key: "rzp_test_1DP5mmOlF5G5ag", // Razorpay's public test key
+    amount: total * 100, // paise
+    currency: "INR",
+    name: "Croviaa",
+    description: "Handmade crochet order",
+    image: "",
+    handler: function(response) {
+      const orderId = 'CRV-' + Math.floor(1000 + Math.random()*9000);
+      document.getElementById('orderIdDisplay').textContent = '#' + orderId;
+      cart = {};
+      updateCartBadge();
+      showView('success');
+    },
+    prefill: { name: name, email: email, contact: phone },
+    theme: { color: "#C16E4A" },
+    modal: {
+      ondismiss: function() { showToast('Payment cancelled', 'error'); }
+    }
+  };
+
+  try {
+    const rzp = new Razorpay(options);
+    rzp.open();
+  } catch (e) {
+    showToast('Payment widget failed to load — check your connection', 'error');
+  }
+}
+
+/* ============ TOAST ============ */
+let toastTimer;
+function showToast(msg, type) {
+  const toast = document.getElementById('toast');
+  const icons = {
+    cart: `<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="9" cy="21" r="1.4"/><circle cx="19" cy="21" r="1.4"/><path d="M2.5 3h2l2.6 12.4a2 2 0 0 0 2 1.6h8.4a2 2 0 0 0 2-1.6L21 7H6"/></svg>`,
+    heart: `<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 21s-7-4.5-9.5-9C0.7 8.4 2 5 5.3 4.2c2-.5 3.8.3 4.7 2 .9-1.7 2.7-2.5 4.7-2C18 5 19.3 8.4 17.5 12c-2.5 4.5-9.5 9-9.5 9z"/></svg>`,
+    error: `<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v5M12 16h.01"/></svg>`,
+  };
+  toast.innerHTML = `${icons[type]||''}<span>${msg}</span>`;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2400);
+}
+
+/* ============ INIT ============ */
+renderTabs();
+renderProductGrid();
+updateCartBadge();
+updateWishlistBadge();
+</script>
+
+</body>
+</html>
