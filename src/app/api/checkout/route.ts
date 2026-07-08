@@ -4,10 +4,9 @@ import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 // Fallback products definition in case database fetch fails or tables are empty
 const FALLBACK_PRODUCTS = [
-  { id: 'p1', name: 'Starfish Keychain', price: 399 },
-
-  { id: 'p2', name: 'Little Bear Friend', price: 899 },
-  { id: 'p3', name: 'Sunbeam Bucket Hat', price: 749 },
+  { id: 'p1', name: 'Starfish Keychain', price: 99 },
+  { id: 'p2', name: 'Hidden Love Pot', price: 349 },
+  { id: 'p3', name: 'Turtle Keychain', price: 199 },
   { id: 'p4', name: 'Wavy Scarf', price: 999 },
   { id: 'p5', name: 'Mini Pouch Duo', price: 549 },
   { id: 'p6', name: 'Tiny Fox Keychain', price: 399 },

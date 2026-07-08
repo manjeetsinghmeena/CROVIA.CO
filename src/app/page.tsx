@@ -4,16 +4,22 @@ import React, { useState, useEffect, useRef } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useCart } from '@/context/CartContext';
 import { useWishlist } from '@/context/WishlistContext';
-import { Product } from '@/types';
+import { Product, Review } from '@/types';
 
 import { CartDrawer } from '@/components/CartDrawer';
 import { CheckoutPage } from '@/components/CheckoutPage';
 import { SuccessPage } from '@/components/SuccessPage';
 
+const FALLBACK_REVIEWS: Review[] = [
+  { id: 1, name: 'Priya M.', location: 'Jaipur', rating: 5, text: 'The tote is even softer than it looked in photos. You can tell so much care went into it.' },
+  { id: 2, name: 'Ananya S.', location: 'Delhi', rating: 5, text: 'Ordered a custom bear for my niece and the detail on the little paws was adorable.' },
+  { id: 3, name: 'Riya K.', location: 'Mumbai', rating: 5, text: 'Checkout was so smooth, and the packaging made it feel like a gift to myself.' }
+];
+
 const FALLBACK_PRODUCTS: Product[] = [
-  { id: 'p1', category: 'amigurumi', name: 'Starfish Keychain', description: 'A chunky hand-crocheted starfish with googly eyes — clip it to your bag or keys for a daily dose of cozy.', price: 399, tag: null, gradient: 'linear-gradient(135deg,#2C2C2C,#1a1a1a)', icon: 'starfish', image: '/images/starfish-keychain.png' },
-  { id: 'p2', category: 'amigurumi', name: 'Little Bear Friend', description: 'A squishy 6" bear made to be hugged, gifted, or shelf-displayed.', price: 899, tag: null, gradient: 'linear-gradient(135deg,#8A9A5B,#707D49)', icon: 'bear', image: '/images/bear-friend.png' },
-  { id: 'p3', category: 'wearables', name: 'Sunbeam Bucket Hat', description: 'Breathable cotton-blend hat, perfect for golden-hour walks.', price: 749, tag: null, gradient: 'linear-gradient(135deg,#C16E4A,#A8593A)', icon: 'hat', image: '/images/bucket-hat.png' },
+  { id: 'p1', category: 'amigurumi', name: 'Starfish Keychain', description: 'A chunky hand-crocheted starfish with googly eyes — clip it to your bag or keys for a daily dose of cozy.', price: 99, tag: null, gradient: 'linear-gradient(135deg,#2C2C2C,#1a1a1a)', icon: 'starfish', image: '/images/starfish-keychain.jpg' },
+  { id: 'p2', category: 'amigurumi', name: 'Hidden Love Pot', description: 'A pair of hand-crocheted tulip pots in blush pink & cream — a sweet, silent way to say “you matter.”', price: 349, tag: null, gradient: 'linear-gradient(135deg,#f9c6d0,#a8d5a2)', icon: 'bear', image: '/images/hidden-love-pot.jpg', imagePosition: 'center 85%' },
+  { id: 'p3', category: 'amigurumi', name: 'Turtle Keychain', description: 'Adorable hand-crocheted turtle buddies to clip onto your backpack, keys, or purse.', price: 199, tag: null, gradient: 'linear-gradient(135deg,#93C5FD,#3B82F6)', icon: 'turtle', image: '/images/turtle-keychain.jpg' },
   { id: 'p4', category: 'wearables', name: 'Wavy Scarf', description: 'Long, drapey scarf with a soft wave texture stitch.', price: 999, tag: null, gradient: 'linear-gradient(135deg,#E8C4A0,#8A9A5B)', icon: 'scarf', image: '/images/wavy-scarf.png' },
   { id: 'p5', category: 'bags', name: 'Mini Pouch Duo', description: 'Set of two coin pouches — perfect for cards, keys, or lip balm.', price: 549, tag: null, gradient: 'linear-gradient(135deg,#707D49,#3D2B1F)', icon: 'pouch', image: '/images/mini-pouch.png' },
   { id: 'p6', category: 'amigurumi', name: 'Tiny Fox Keychain', description: 'A pocket-sized fox friend to clip onto your bag or keys.', price: 399, tag: null, gradient: 'linear-gradient(135deg,#C16E4A,#E8C4A0)', icon: 'fox', image: '/images/fox-keychain.png' },
@@ -33,6 +39,12 @@ export default function Home() {
   // App views: 'home' | 'wishlist' | 'checkout' | 'success'
   const [view, setView] = useState<'home' | 'wishlist' | 'checkout' | 'success'>('home');
   const [products, setProducts] = useState<Product[]>(FALLBACK_PRODUCTS);
+  const [reviews, setReviews] = useState<Review[]>(FALLBACK_REVIEWS);
+  const [revName, setRevName] = useState('');
+  const [revLoc, setRevLoc] = useState('');
+  const [revRating, setRevRating] = useState(5);
+  const [revText, setRevText] = useState('');
+  const [submittingReview, setSubmittingReview] = useState(false);
   const [activeFilter, setActiveFilter] = useState('all');
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [successOrderId, setSuccessOrderId] = useState('');
@@ -61,6 +73,95 @@ export default function Home() {
     }
     getProducts();
   }, []);
+
+  // Fetch reviews from database
+  useEffect(() => {
+    async function getReviews() {
+      try {
+        const { data, error } = await supabase.from('reviews').select('*').order('created_at', { ascending: false });
+        if (!error && data && data.length > 0) {
+          setReviews(data);
+        }
+      } catch (err) {
+        console.warn('Failed to load reviews from database, using fallback values.', err);
+      }
+    }
+    getReviews();
+  }, []);
+
+  const handleSubmitReview = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!revName.trim() || !revLoc.trim() || !revText.trim()) {
+      showToast('Please fill out all review fields.', 'error');
+      return;
+    }
+    setSubmittingReview(true);
+    const newReview = {
+      name: revName,
+      location: revLoc,
+      rating: revRating,
+      text: revText,
+    };
+    try {
+      const { data, error } = await supabase.from('reviews').insert([newReview]).select();
+      if (!error && data && data[0]) {
+        setReviews(prev => [data[0], ...prev]);
+        showToast('Review submitted! Thank you.', 'cart');
+        setRevName('');
+        setRevLoc('');
+        setRevRating(5);
+        setRevText('');
+      } else {
+        console.warn('Supabase insert failed, adding locally.');
+        const mockNew = {
+          ...newReview,
+          id: Date.now(),
+          created_at: new Date().toISOString()
+        };
+        setReviews(prev => [mockNew, ...prev]);
+        showToast('Review added! Thank you.', 'cart');
+        setRevName('');
+        setRevLoc('');
+        setRevRating(5);
+        setRevText('');
+      }
+    } catch (err) {
+      console.error(err);
+      showToast('Something went wrong. Review added locally.', 'cart');
+      const mockNew = {
+        ...newReview,
+        id: Date.now(),
+        created_at: new Date().toISOString()
+      };
+      setReviews(prev => [mockNew, ...prev]);
+      setRevName('');
+      setRevLoc('');
+      setRevRating(5);
+      setRevText('');
+    } finally {
+      setSubmittingReview(false);
+    }
+  };
+
+  const renderRatingHearts = (rating: number) => {
+    return (
+      <div className="stars" style={{ display: 'flex', gap: '3px', color: 'var(--terracotta)', marginBottom: '14px' }}>
+        {[1, 2, 3, 4, 5].map((star) => (
+          <svg
+            key={star}
+            viewBox="0 0 24 24"
+            width="16"
+            height="16"
+            stroke="var(--terracotta)"
+            strokeWidth="2"
+            fill={star <= rating ? 'var(--terracotta)' : 'none'}
+          >
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+          </svg>
+        ))}
+      </div>
+    );
+  };
 
   const showToast = (msg: string, type: 'cart' | 'heart' | 'error') => {
     setToast({ msg, type });
@@ -221,21 +322,21 @@ export default function Home() {
 
                 <figure className="polaroid p1">
                   <div className="swatch" style={{ padding: 0, overflow: 'hidden' }}>
-                    <img src="/images/starfish-keychain.png" alt="Starfish Keychain" className="polaroid-img" />
+                    <img src="/images/starfish-keychain.jpg" alt="Starfish Keychain" className="polaroid-img" />
                   </div>
                   <figcaption>starfish keychain</figcaption>
                 </figure>
                 <figure className="polaroid p2">
                   <div className="swatch" style={{ padding: 0, overflow: 'hidden' }}>
-                    <img src="/images/bear-friend.png" alt="Little Bear Friend" className="polaroid-img" />
+                    <img src="/images/hidden-love-pot.jpg" alt="Hidden Love Pot" className="polaroid-img" />
                   </div>
-                  <figcaption>little bear friend</figcaption>
+                  <figcaption>hidden love pot</figcaption>
                 </figure>
                 <figure className="polaroid p3">
                   <div className="swatch" style={{ padding: 0, overflow: 'hidden' }}>
-                    <img src="/images/bucket-hat.png" alt="Sunbeam Bucket Hat" className="polaroid-img" />
+                    <img src="/images/turtle-keychain.jpg" alt="Turtle Keychain" className="polaroid-img" />
                   </div>
-                  <figcaption>sunbeam bucket hat</figcaption>
+                  <figcaption>turtle keychain</figcaption>
                 </figure>
               </div>
             </div>
@@ -316,7 +417,12 @@ export default function Home() {
                             <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
                           </svg>
                         </button>
-                        <img src={p.image} alt={p.name} className="card-product-img" />
+                        <img
+                          src={p.image}
+                          alt={p.name}
+                          className="card-product-img"
+                          style={{ objectPosition: p.imagePosition || 'center' }}
+                        />
                       </div>
                       <div className="card-body">
                         <span className="cat">{p.category}</span>
@@ -401,40 +507,112 @@ export default function Home() {
                 <span className="section-label">Kind Words</span>
                 <h2>Loved by cozy people everywhere.</h2>
               </div>
-              <div className="quote-grid">
-                <div className="quote-card">
-                  <div className="stars">★★★★★</div>
-                  <p className="quote">The tote is even softer than it looked in photos. You can tell so much care went into it.</p>
-                  <div className="quote-who">
-                    <div className="quote-avatar">P</div>
-                    <div>
-                      <div className="name">Priya M.</div>
-                      <div className="loc">Jaipur</div>
+              
+              <div className="reviews-grid-wrapper">
+                <div className="quote-grid">
+                  {reviews.slice(0, 3).map((rev, index) => (
+                    <div className="quote-card" key={rev.id || index}>
+                      {renderRatingHearts(rev.rating)}
+                      <p className="quote">“{rev.text}”</p>
+                      <div className="quote-who">
+                        <div className="quote-avatar">{rev.name.charAt(0)}</div>
+                        <div>
+                          <div className="name">{rev.name}</div>
+                          <div className="loc">{rev.location}</div>
+                        </div>
+                      </div>
                     </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Horizontal loop for reviews beyond the first 3 */}
+              {reviews.length > 3 && (
+                <div className="reviews-loop-container">
+                  <div className="reviews-loop-track">
+                    {/* Render twice for continuous scroll loop */}
+                    {[...reviews.slice(3), ...reviews.slice(3)].map((rev, idx) => (
+                      <div className="quote-card" key={`loop-${rev.id || idx}-${idx}`}>
+                        {renderRatingHearts(rev.rating)}
+                        <p className="quote">“{rev.text}”</p>
+                        <div className="quote-who">
+                          <div className="quote-avatar">{rev.name.charAt(0)}</div>
+                          <div>
+                            <div className="name">{rev.name}</div>
+                            <div className="loc">{rev.location}</div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
-                <div className="quote-card">
-                  <div className="stars">★★★★★</div>
-                  <p className="quote">Ordered a custom bear for my niece and the detail on the little paws was adorable.</p>
-                  <div className="quote-who">
-                    <div className="quote-avatar">A</div>
-                    <div>
-                      <div className="name">Ananya S.</div>
-                      <div className="loc">Delhi</div>
+              )}
+
+              {/* Review Entry Form */}
+              <div className="review-form-card">
+                <h3>Leave a review</h3>
+                <p className="subtitle">Share your cozy experience with our handmade pieces.</p>
+                <form onSubmit={handleSubmitReview}>
+                  <div className="form-grid">
+                    <div className="form-group-review">
+                      <label htmlFor="rev-name">Your Name</label>
+                      <input
+                        id="rev-name"
+                        type="text"
+                        placeholder="e.g. Priya M."
+                        value={revName}
+                        onChange={(e) => setRevName(e.target.value)}
+                        required
+                      />
+                    </div>
+                    <div className="form-group-review">
+                      <label htmlFor="rev-loc">Your Location</label>
+                      <input
+                        id="rev-loc"
+                        type="text"
+                        placeholder="e.g. Jaipur"
+                        value={revLoc}
+                        onChange={(e) => setRevLoc(e.target.value)}
+                        required
+                      />
                     </div>
                   </div>
-                </div>
-                <div className="quote-card">
-                  <div className="stars">★★★★★</div>
-                  <p className="quote">Checkout was so smooth, and the packaging made it feel like a gift to myself.</p>
-                  <div className="quote-who">
-                    <div className="quote-avatar">R</div>
-                    <div>
-                      <div className="name">Riya K.</div>
-                      <div className="loc">Mumbai</div>
+                  
+                  <div className="form-group-review">
+                    <label>Rating</label>
+                    <div className="rating-selector">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <button
+                          key={star}
+                          type="button"
+                          className={`rating-heart-btn ${star <= revRating ? 'active' : ''}`}
+                          onClick={() => setRevRating(star)}
+                          aria-label={`Rate ${star} hearts`}
+                        >
+                          <svg viewBox="0 0 24 24">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                          </svg>
+                        </button>
+                      ))}
                     </div>
                   </div>
-                </div>
+
+                  <div className="form-group-review">
+                    <label htmlFor="rev-text">Review Message</label>
+                    <textarea
+                      id="rev-text"
+                      rows={4}
+                      placeholder="Tell us what you think of your crochet goodies..."
+                      value={revText}
+                      onChange={(e) => setRevText(e.target.value)}
+                      required
+                    ></textarea>
+                  </div>
+                  
+                  <button type="submit" className="submit-review-btn" disabled={submittingReview}>
+                    {submittingReview ? 'Submitting...' : 'Submit Review'}
+                  </button>
+                </form>
               </div>
             </div>
           </section>
@@ -494,7 +672,12 @@ export default function Home() {
                               <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
                             </svg>
                           </button>
-                          <img src={p.image} alt={p.name} className="card-product-img" />
+                          <img
+                            src={p.image}
+                            alt={p.name}
+                            className="card-product-img"
+                            style={{ objectPosition: p.imagePosition || 'center' }}
+                          />
                         </div>
                         <div className="card-body">
                           <span className="cat">{p.category}</span>

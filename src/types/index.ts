@@ -10,7 +10,9 @@ export interface Product {
   gradient: string;
   icon: string;
   image?: string; // optional real photo path e.g. /images/starfish-keychain.jpg
+  imagePosition?: string; // optional CSS object-position value e.g. 'center bottom'
 }
+
 
 export interface ShippingDetails {
   fname: string;
@@ -46,3 +48,13 @@ export interface Order {
   razorpay_signature?: string;
   items: OrderItem[];
 }
+
+export interface Review {
+  id?: number;
+  created_at?: string;
+  name: string;
+  location: string;
+  rating: number;
+  text: string;
+}
+
