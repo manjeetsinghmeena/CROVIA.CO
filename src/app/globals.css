@@ -73,16 +73,15 @@ nav { position: sticky; top: 0; z-index: 50; background: rgba(251, 244, 236, 0.9
 .btn-outline { display: inline-flex; align-items: center; gap: 8px; background: transparent; border: 1.5px solid var(--espresso); color: var(--espresso); padding: 13px 24px; border-radius: 100px; font-weight: 600; font-size: 0.95rem; transition: all 0.2s ease; cursor: pointer; }
 .btn-outline:hover { background: var(--espresso); color: var(--linen); }
 
-.collage { position: relative; height: 460px; }
+.collage { position: relative; height: 540px; }
 .polaroid { position: absolute; background: var(--cream-card); padding: 14px 14px 46px 14px; border-radius: 4px; box-shadow: 0 14px 30px rgba(61, 43, 31, 0.18); }
 .polaroid .swatch { width: 100%; height: 100%; border-radius: 2px; display: flex; align-items: center; justify-content: center; }
 .polaroid-img { width: 100%; height: 100%; object-fit: cover; border-radius: 2px; display: block; }
 
 .polaroid figcaption { font-family: 'Caveat', cursive; font-size: 1.15rem; color: var(--cocoa); text-align: center; margin-top: 8px; position: absolute; bottom: 12px; left: 0; right: 0; }
-.p1 { width: 230px; height: 270px; top: 0; left: 30px; transform: rotate(-7deg); z-index: 3; }
-.p2 { width: 200px; height: 240px; top: 60px; right: 10px; transform: rotate(6deg); z-index: 2; }
-.p3 { width: 190px; height: 220px; bottom: 0; left: 100px; transform: rotate(4deg); z-index: 4; }
-.stitch-ring { position: absolute; top: -28px; right: 60px; width: 92px; height: 92px; z-index: 5; }
+.p1 { width: 275px; height: 325px; top: 0; left: 30px; transform: rotate(-7deg); z-index: 5; }
+.p2 { width: 240px; height: 285px; top: 60px; right: 10px; transform: rotate(6deg); z-index: 2; }
+.p3 { width: 230px; height: 265px; bottom: 0; left: 110px; transform: rotate(4deg); z-index: 3; }
 
 /* ============ MARQUEE ============ */
 .marquee-band { background: var(--espresso); color: var(--linen); padding: 16px 0; overflow: hidden; position: relative; z-index: 2; }
@@ -116,7 +115,7 @@ nav { position: sticky; top: 0; z-index: 50; background: rgba(251, 244, 236, 0.9
 .card-product-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
 .card:hover .card-product-img { transform: scale(1.04); }
 
-.wishlist-toggle { position: absolute; top: 14px; right: 14px; width: 36px; height: 36px; border-radius: 50%; background: rgba(255,252,248,0.9); display: flex; align-items: center; justify-content: center; transition: transform 0.15s ease; box-shadow: 0 3px 8px rgba(61,43,31,0.15); }
+.wishlist-toggle { position: absolute; top: 14px; right: 14px; width: 36px; height: 36px; border-radius: 50%; background: rgba(255,252,248,0.9); display: flex; align-items: center; justify-content: center; transition: transform 0.15s ease; box-shadow: 0 3px 8px rgba(61,43,31,0.15); z-index: 2; }
 .wishlist-toggle:hover { transform: scale(1.1); }
 .wishlist-toggle svg { width: 18px; height: 18px; stroke: var(--terracotta); fill: none; transition: fill 0.2s ease; }
 .wishlist-toggle.active svg { fill: var(--terracotta); }
@@ -257,10 +256,10 @@ footer ul a:hover, footer ul button:hover { color: var(--linen); }
 @media (max-width: 900px) {
   .nav-links { display: none; }
   .hero-grid { grid-template-columns: 1fr; }
-  .collage { height: 340px; margin-top: 20px; }
-  .p1 { width: 170px; height: 200px; left: 10px; }
-  .p2 { width: 150px; height: 180px; right: 0; top: 30px; }
-  .p3 { width: 140px; height: 160px; left: 70px; bottom: -10px; }
+  .collage { height: 400px; margin-top: 20px; }
+  .p1 { width: 205px; height: 240px; left: 10px; }
+  .p2 { width: 180px; height: 215px; right: 0; top: 30px; }
+  .p3 { width: 170px; height: 195px; left: 70px; bottom: -10px; }
   .about-grid { grid-template-columns: 1fr; }
   .about-visual { aspect-ratio: 16/10; }
   .product-grid { grid-template-columns: repeat(2, 1fr); }

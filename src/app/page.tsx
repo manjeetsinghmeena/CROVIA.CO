@@ -218,9 +218,7 @@ export default function Home() {
                 </div>
               </div>
               <div className="collage">
-                <svg className="stitch-ring" viewBox="0 0 100 100" fill="none">
-                  <circle cx="50" cy="50" r="42" stroke="#8A9A5B" strokeWidth="3" strokeDasharray="4 7" />
-                </svg>
+
                 <figure className="polaroid p1">
                   <div className="swatch" style={{ padding: 0, overflow: 'hidden' }}>
                     <img src="/images/starfish-keychain.png" alt="Starfish Keychain" className="polaroid-img" />
