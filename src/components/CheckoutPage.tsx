@@ -110,7 +110,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
         key: keyId,
         amount: total * 100, // in paise
         currency: 'INR',
-        name: 'Croviaa',
+        name: 'Croviaa.co',
         description: 'Handmade crochet order',
         order_id: isMockPayment ? undefined : razorpayOrderId, // don't send mock order IDs to real razorpay widget
         handler: async function (response: any) {

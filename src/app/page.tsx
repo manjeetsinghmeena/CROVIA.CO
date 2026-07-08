@@ -10,11 +10,7 @@ import { CartDrawer } from '@/components/CartDrawer';
 import { CheckoutPage } from '@/components/CheckoutPage';
 import { SuccessPage } from '@/components/SuccessPage';
 
-const FALLBACK_REVIEWS: Review[] = [
-  { id: 1, name: 'Priya M.', location: 'Jaipur', rating: 5, text: 'The tote is even softer than it looked in photos. You can tell so much care went into it.' },
-  { id: 2, name: 'Ananya S.', location: 'Delhi', rating: 5, text: 'Ordered a custom bear for my niece and the detail on the little paws was adorable.' },
-  { id: 3, name: 'Riya K.', location: 'Mumbai', rating: 5, text: 'Checkout was so smooth, and the packaging made it feel like a gift to myself.' }
-];
+const FALLBACK_REVIEWS: Review[] = [];
 
 const FALLBACK_PRODUCTS: Product[] = [
   { id: 'p1', category: 'amigurumi', name: 'Starfish Keychain', description: 'A chunky hand-crocheted starfish with googly eyes — clip it to your bag or keys for a daily dose of cozy.', price: 99, tag: null, gradient: 'linear-gradient(135deg,#2C2C2C,#1a1a1a)', icon: 'starfish', image: '/images/starfish-keychain.jpg' },
@@ -221,13 +217,8 @@ export default function Home() {
               handleViewChange('home');
             }}
           >
-            <svg viewBox="0 0 40 40" fill="none">
-              <circle cx="20" cy="20" r="19" fill="#C16E4A" />
-              <path d="M11 22c0-6 4-10 9-10s9 4 9 10c0 3-2 5-5 5h-8c-3 0-5-2-5-5z" stroke="#FBF4EC" strokeWidth="1.8" fill="none" />
-              <path d="M14 20c2-2 4-2 6 0s4 2 6 0" stroke="#FBF4EC" strokeWidth="1.6" fill="none" strokeLinecap="round" />
-              <path d="M14 24c2-2 4-2 6 0s4 2 6 0" stroke="#FBF4EC" strokeWidth="1.6" fill="none" strokeLinecap="round" />
-            </svg>
-            <span className="txt">Croviaa</span>
+            <img src="/images/logo.jpg" alt="Croviaa.co Logo" className="logo-img" />
+            <span className="txt">Croviaa.co</span>
           </a>
           <div className="nav-links">
             <a
@@ -303,7 +294,7 @@ export default function Home() {
                   <br />
                   one loop at a <span className="accent">time.</span>
                 </h1>
-                <p className="lede">Croviaa is a tiny crochet studio making cozy bags, wearables, and amigurumi friends — each piece hand-hooked, one at a time, just for you.</p>
+                <p className="lede">Croviaa.co is a tiny crochet studio making cozy bags, wearables, and amigurumi friends — each piece hand-hooked, one at a time, just for you.</p>
                 <div className="hero-actions">
                   <button className="btn-primary" onClick={() => handleScrollToSection('shop-section')}>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="18" height="18">
@@ -358,21 +349,25 @@ export default function Home() {
           <section className="about" id="about">
             <div className="wrap about-grid">
               <div className="about-visual">
-                <svg width="65%" viewBox="0 0 200 200" fill="none">
-                  <circle cx="100" cy="100" r="70" fill="#C16E4A" opacity="0.15" />
-                  <path d="M60 110c0-25 18-45 40-45s40 20 40 45v35a8 8 0 0 1-8 8H68a8 8 0 0 1-8-8v-35z" fill="#C16E4A" />
-                  <path d="M72 108c8-8 16-8 28 0s20 8 28 0" stroke="#FBF4EC" strokeWidth="3" fill="none" strokeLinecap="round" />
-                  <path d="M72 122c8-8 16-8 28 0s20 8 28 0" stroke="#FBF4EC" strokeWidth="3" fill="none" strokeLinecap="round" />
-                  <path d="M72 136c8-8 16-8 28 0s20 8 28 0" stroke="#FBF4EC" strokeWidth="3" fill="none" strokeLinecap="round" />
-                  <circle cx="100" cy="60" r="6" fill="#7B4B33" />
-                </svg>
+                <img
+                  src="/images/logo.jpg"
+                  alt="Croviaa.co Logo"
+                  style={{
+                    width: '65%',
+                    aspectRatio: '1',
+                    borderRadius: '50%',
+                    objectFit: 'cover',
+                    boxShadow: '0 16px 40px rgba(61, 43, 31, 0.15)',
+                    border: '4px solid rgba(193, 110, 74, 0.2)',
+                  }}
+                />
               </div>
               <div>
                 <span className="section-label">The Maker's Note</span>
                 <h2>Every stitch has a story — and a little bit of patience.</h2>
-                <p>Croviaa started the way most cozy things do: with one hook, one ball of yarn, and way too much YouTube tutorial watching at 1am. What began as a quiet hobby turned into a tiny home studio making bags, wearables, and squishy little amigurumi friends for anyone who loves things made slowly and on purpose.</p>
+                <p>Croviaa.co started the way most cozy things do: with one hook, one ball of yarn, and way too much YouTube tutorial watching at 1am. What began as a quiet hobby turned into a tiny home studio making bags, wearables, and squishy little amigurumi friends for anyone who loves things made slowly and on purpose.</p>
                 <p>Nothing here is mass-produced. Every order is counted, looped, and tied off by hand — which means small wait times, but a piece that's really, truly yours.</p>
-                <p className="about-sign">— with love, the Croviaa hook & hands</p>
+                <p className="about-sign">— with love, the Croviaa.co hook & hands</p>
               </div>
             </div>
           </section>
@@ -508,31 +503,36 @@ export default function Home() {
                 <h2>Loved by cozy people everywhere.</h2>
               </div>
               
-              <div className="reviews-grid-wrapper">
-                <div className="quote-grid">
-                  {reviews.slice(0, 3).map((rev, index) => (
-                    <div className="quote-card" key={rev.id || index}>
-                      {renderRatingHearts(rev.rating)}
-                      <p className="quote">“{rev.text}”</p>
-                      <div className="quote-who">
-                        <div className="quote-avatar">{rev.name.charAt(0)}</div>
-                        <div>
-                          <div className="name">{rev.name}</div>
-                          <div className="loc">{rev.location}</div>
+              {reviews.length > 0 ? (
+                <div className="reviews-grid-wrapper">
+                  <div className="quote-grid">
+                    {reviews.slice(0, 3).map((rev, index) => (
+                      <div className="quote-card" key={rev.id || index}>
+                        {renderRatingHearts(rev.rating)}
+                        <p className="quote">“{rev.text}”</p>
+                        <div className="quote-who">
+                          <div className="quote-avatar">{rev.name.charAt(0)}</div>
+                          <div>
+                            <div className="name">{rev.name}</div>
+                            <div className="loc">{rev.location}</div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <p style={{ textAlign: 'center', color: 'var(--cocoa)', fontSize: '1.05rem', margin: '20px 0 40px', fontStyle: 'italic' }}>
+                  No reviews yet. Be the first to leave one below!
+                </p>
+              )}
 
-              {/* Horizontal loop for reviews beyond the first 3 */}
+              {/* Horizontal scroll for reviews beyond the first 3 */}
               {reviews.length > 3 && (
-                <div className="reviews-loop-container">
-                  <div className="reviews-loop-track">
-                    {/* Render twice for continuous scroll loop */}
-                    {[...reviews.slice(3), ...reviews.slice(3)].map((rev, idx) => (
-                      <div className="quote-card" key={`loop-${rev.id || idx}-${idx}`}>
+                <div className="reviews-scroll-container">
+                  <div className="reviews-scroll-track">
+                    {reviews.slice(3).map((rev, idx) => (
+                      <div className="quote-card" key={`scroll-${rev.id || idx}-${idx}`}>
                         {renderRatingHearts(rev.rating)}
                         <p className="quote">“{rev.text}”</p>
                         <div className="quote-who">
@@ -736,11 +736,8 @@ export default function Home() {
             <div className="footer-grid">
               <div>
                 <div className="footer-logo">
-                  <svg viewBox="0 0 40 40" fill="none" width="30" height="30">
-                    <circle cx="20" cy="20" r="19" fill="#C16E4A" />
-                    <path d="M11 22c0-6 4-10 9-10s9 4 9 10c0 3-2 5-5 5h-8c-3 0-5-2-5-5z" stroke="#FBF4EC" strokeWidth="1.8" fill="none" />
-                  </svg>
-                  Croviaa
+                  <img src="/images/logo.jpg" alt="Croviaa.co Logo" className="logo-img" />
+                  Croviaa.co
                 </div>
                 <p className="blurb">Handmade crochet bags, wearables, and amigurumi — made slowly, with love, one loop at a time.</p>
               </div>
@@ -803,7 +800,7 @@ export default function Home() {
               </div>
             </div>
             <div className="footer-bottom">
-              <span>© 2026 Croviaa. All pieces handmade with love.</span>
+              <span>© 2026 Croviaa.co. All pieces handmade with love.</span>
               <div className="social-row">
                 <a href="https://www.instagram.com/croviaa.co" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                   <svg viewBox="0 0 24 24" fill="none" stroke="#FBF4EC" strokeWidth="2" width="17" height="17">

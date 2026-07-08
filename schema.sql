@@ -90,16 +90,5 @@ CREATE POLICY "Allow public select of reviews" ON public.reviews
 CREATE POLICY "Allow public insert of reviews" ON public.reviews
     FOR INSERT WITH CHECK (true);
 
--- Populate Reviews Table with Initial Data (if table is empty)
-INSERT INTO public.reviews (name, location, rating, text)
-SELECT 'Priya M.', 'Jaipur', 5, 'The tote is even softer than it looked in photos. You can tell so much care went into it.'
-WHERE NOT EXISTS (SELECT 1 FROM public.reviews WHERE name = 'Priya M.');
 
-INSERT INTO public.reviews (name, location, rating, text)
-SELECT 'Ananya S.', 'Delhi', 5, 'Ordered a custom bear for my niece and the detail on the little paws was adorable.'
-WHERE NOT EXISTS (SELECT 1 FROM public.reviews WHERE name = 'Ananya S.');
-
-INSERT INTO public.reviews (name, location, rating, text)
-SELECT 'Riya K.', 'Mumbai', 5, 'Checkout was so smooth, and the packaging made it feel like a gift to myself.'
-WHERE NOT EXISTS (SELECT 1 FROM public.reviews WHERE name = 'Riya K.');
 
