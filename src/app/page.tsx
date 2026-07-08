@@ -367,7 +367,7 @@ export default function Home() {
                 <h2>Every stitch has a story — and a little bit of patience.</h2>
                 <p>Croviaa.co started the way most cozy things do: with one hook, one ball of yarn, and way too much YouTube tutorial watching at 1am. What began as a quiet hobby turned into a tiny home studio making bags, wearables, and squishy little amigurumi friends for anyone who loves things made slowly and on purpose.</p>
                 <p>Nothing here is mass-produced. Every order is counted, looped, and tied off by hand — which means small wait times, but a piece that's really, truly yours.</p>
-                <p className="about-sign">— with love, the Croviaa.co hook & hands</p>
+                <p className="about-sign">— with love, Croviaa.co</p>
               </div>
             </div>
           </section>
