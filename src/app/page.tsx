@@ -16,15 +16,16 @@ const FALLBACK_PRODUCTS: Product[] = [
   { id: 'p1', category: 'amigurumi', name: 'Starfish Keychain', description: 'A chunky hand-crocheted starfish with googly eyes — clip it to your bag or keys for a daily dose of cozy.', price: 99, tag: null, gradient: 'linear-gradient(135deg,#2C2C2C,#1a1a1a)', icon: 'starfish', image: '/images/starfish-keychain.jpg' },
   { id: 'p2', category: 'amigurumi', name: 'Hidden Love Pot', description: 'A pair of hand-crocheted tulip pots in blush pink & cream — a sweet, silent way to say “you matter.”', price: 349, tag: null, gradient: 'linear-gradient(135deg,#f9c6d0,#a8d5a2)', icon: 'bear', image: '/images/hidden-love-pot.jpg', imagePosition: 'center 85%' },
   { id: 'p3', category: 'amigurumi', name: 'Turtle Keychain', description: 'Adorable hand-crocheted turtle buddies to clip onto your backpack, keys, or purse.', price: 199, tag: null, gradient: 'linear-gradient(135deg,#93C5FD,#3B82F6)', icon: 'turtle', image: '/images/turtle-keychain.jpg' },
-  { id: 'p4', category: 'wearables', name: 'Wavy Scarf', description: 'Long, drapey scarf with a soft wave texture stitch.', price: 999, tag: null, gradient: 'linear-gradient(135deg,#E8C4A0,#8A9A5B)', icon: 'scarf', image: '/images/wavy-scarf.png' },
-  { id: 'p5', category: 'bags', name: 'Mini Pouch Duo', description: 'Set of two coin pouches — perfect for cards, keys, or lip balm.', price: 549, tag: null, gradient: 'linear-gradient(135deg,#707D49,#3D2B1F)', icon: 'pouch', image: '/images/mini-pouch.png' },
-  { id: 'p6', category: 'amigurumi', name: 'Tiny Fox Keychain', description: 'A pocket-sized fox friend to clip onto your bag or keys.', price: 399, tag: null, gradient: 'linear-gradient(135deg,#C16E4A,#E8C4A0)', icon: 'fox', image: '/images/fox-keychain.png' },
+  { id: 'p4', category: 'florals', name: 'Tulip Bouquet', description: 'A gorgeous hand-crocheted tulip bouquet in pink, cream & red — wrapped in kraft paper with a satin ribbon.', price: 599, tag: null, gradient: 'linear-gradient(135deg,#f9c6d0,#e85d75)', icon: 'tulip', image: '/images/tulip-bouquet.jpg' },
+  { id: 'p5', category: 'florals', name: 'Double Lily Pot', description: 'Two vibrant red crocheted lilies with golden stamens, potted in a cozy jute planter.', price: 349, tag: null, gradient: 'linear-gradient(135deg,#e63946,#f4a261)', icon: 'lily', image: '/images/double-lily-pot.jpg' },
+  { id: 'p6', category: 'florals', name: 'Sunflower Pot', description: 'A cheerful hand-crocheted sunflower in a rustic jute pot — bring sunshine to any desk or shelf.', price: 249, tag: null, gradient: 'linear-gradient(135deg,#f4d35e,#8A9A5B)', icon: 'sunflower', image: '/images/sunflower-pot.jpg' },
+  { id: 'p7', category: 'florals', name: 'Dual Shade Lily Pot', description: 'A delicate pink-and-red crocheted lily with golden stamens, nestled in a jute pot.', price: 299, tag: null, gradient: 'linear-gradient(135deg,#f9c6d0,#c1476b)', icon: 'lily', image: '/images/dual-shade-lily-pot.jpg' },
+  { id: 'p8', category: 'florals', name: 'Rose Pot', description: 'A soft pink crocheted rose in a cozy jute pot — a timeless gift that never wilts.', price: 249, tag: null, gradient: 'linear-gradient(135deg,#f4a0b5,#8fbc8f)', icon: 'rose', image: '/images/rose-pot.jpg' },
 ];
 
 const CATEGORIES = [
   { key: 'all', label: 'All' },
-  { key: 'bags', label: 'Bags & Totes' },
-  { key: 'wearables', label: 'Wearables' },
+  { key: 'florals', label: 'Florals' },
   { key: 'amigurumi', label: 'Amigurumi' },
 ];
 
@@ -44,6 +45,13 @@ export default function Home() {
   const [activeFilter, setActiveFilter] = useState('all');
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [successOrderId, setSuccessOrderId] = useState('');
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [modalQty, setModalQty] = useState(1);
+
+  const handleOpenProductModal = (p: Product) => {
+    setSelectedProduct(p);
+    setModalQty(1);
+  };
 
   // Toast state
   const [toast, setToast] = useState<{ msg: string; type: 'cart' | 'heart' | 'error' | null }>({ msg: '', type: null });
@@ -84,6 +92,21 @@ export default function Home() {
     }
     getReviews();
   }, []);
+
+  // Escape key listener to close details modal
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setSelectedProduct(null);
+      }
+    };
+    if (selectedProduct) {
+      window.addEventListener('keydown', handleKeyDown);
+    }
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [selectedProduct]);
 
   const handleSubmitReview = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -402,10 +425,13 @@ export default function Home() {
 
                   return (
                     <div className="card" key={p.id}>
-                      <div className="card-art" style={{ overflow: 'hidden' }}>
+                      <div className="card-art" style={{ overflow: 'hidden' }} onClick={() => handleOpenProductModal(p)}>
                         <button
                           className={`wishlist-toggle ${wished ? 'active' : ''}`}
-                          onClick={() => handleToggleWishlist(p.id)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleToggleWishlist(p.id);
+                          }}
                           aria-label="Save to wishlist"
                         >
                           <svg viewBox="0 0 24 24" strokeWidth="2">
@@ -662,10 +688,13 @@ export default function Home() {
                     const inCart = (cart[p.id] || 0) > 0;
                     return (
                       <div className="card" key={p.id}>
-                        <div className="card-art" style={{ overflow: 'hidden' }}>
+                        <div className="card-art" style={{ overflow: 'hidden' }} onClick={() => handleOpenProductModal(p)}>
                           <button
                             className="wishlist-toggle active"
-                            onClick={() => handleToggleWishlist(p.id)}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleToggleWishlist(p.id);
+                            }}
                             aria-label="Remove from wishlist"
                           >
                             <svg viewBox="0 0 24 24" strokeWidth="2">
@@ -813,6 +842,63 @@ export default function Home() {
             </div>
           </div>
         </footer>
+      )}
+
+      {/* ============ PRODUCT DETAIL MODAL ============ */}
+      {selectedProduct && (
+        <div className="modal-overlay" onClick={() => setSelectedProduct(null)}>
+          <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close" onClick={() => setSelectedProduct(null)} aria-label="Close modal">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+            <div className="modal-grid">
+              <div className="modal-image-sec">
+                <img src={selectedProduct.image} alt={selectedProduct.name} />
+              </div>
+              <div className="modal-details-sec">
+                <span className="cat">{selectedProduct.category}</span>
+                <h2>{selectedProduct.name}</h2>
+                <div className="modal-price">₹{selectedProduct.price}</div>
+                <p className="desc">{selectedProduct.description}</p>
+                
+                <div className="modal-features">
+                  <div className="feat-item">
+                    <span>🧶</span>
+                    <span>100% Hand-Crocheted &amp; Unique</span>
+                  </div>
+                  <div className="feat-item">
+                    <span>❤️</span>
+                    <span>Made With Love &amp; Care</span>
+                  </div>
+                  <div className="feat-item">
+                    <span>✨</span>
+                    <span>Premium Cotton &amp; Acrylic Yarn</span>
+                  </div>
+                </div>
+
+                <div className="modal-actions-row">
+                  <div className="qty-picker">
+                    <button onClick={() => setModalQty(Math.max(1, modalQty - 1))}>−</button>
+                    <span>{modalQty}</span>
+                    <button onClick={() => setModalQty(modalQty + 1)}>+</button>
+                  </div>
+                  <button className="modal-add-btn" onClick={() => {
+                    for (let i = 0; i < modalQty; i++) {
+                      addToCart(selectedProduct.id);
+                    }
+                    showToast(`Added ${modalQty} item(s) to cart`, 'cart');
+                    setSelectedProduct(null);
+                  }}>
+                    Add to Cart · ₹{selectedProduct.price * modalQty}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* ============ CART DRAWER ============ */}

@@ -119,8 +119,9 @@ nav { position: sticky; top: 0; z-index: 50; background: rgba(251, 244, 236, 0.9
 .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
 .card { background: var(--cream-card); border-radius: 16px; overflow: hidden; box-shadow: 0 4px 16px rgba(61, 43, 31, 0.06); transition: transform 0.25s ease, box-shadow 0.25s ease; display: flex; flex-direction: column; }
 .card:hover { transform: translateY(-6px); box-shadow: 0 16px 32px rgba(61, 43, 31, 0.14); }
-.card-art { height: 220px; display: flex; align-items: center; justify-content: center; position: relative; }
-.card-product-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
+.card-art { height: 260px; display: flex; align-items: center; justify-content: center; position: relative; background: #ffffff; padding: 12px; cursor: pointer; transition: background-color 0.2s ease; }
+.card-art:hover { background-color: #faf8f5; }
+.card-product-img { width: 100%; height: 100%; object-fit: contain; display: block; transition: transform 0.4s ease; }
 .card:hover .card-product-img { transform: scale(1.04); }
 
 .wishlist-toggle { position: absolute; top: 14px; right: 14px; width: 36px; height: 36px; border-radius: 50%; background: rgba(255,252,248,0.9); display: flex; align-items: center; justify-content: center; transition: transform 0.15s ease; box-shadow: 0 3px 8px rgba(61,43,31,0.15); z-index: 2; }
@@ -402,6 +403,189 @@ footer ul a:hover, footer ul button:hover { color: var(--linen); }
   transform: none;
 }
 
+/* ============ PRODUCT DETAIL MODAL ============ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(61, 43, 31, 0.45);
+  backdrop-filter: blur(10px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-card {
+  background: var(--linen);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 860px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 24px 50px rgba(61, 43, 31, 0.25);
+  animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(61, 43, 31, 0.06);
+  color: var(--espresso);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+.modal-close:hover {
+  background: rgba(61, 43, 31, 0.12);
+  transform: rotate(90deg);
+}
+
+.modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 480px;
+}
+
+.modal-image-sec {
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  position: relative;
+}
+.modal-image-sec img {
+  width: 100%;
+  height: 100%;
+  max-height: 400px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.modal-details-sec {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.modal-details-sec .cat {
+  font-size: 0.8rem;
+  color: var(--sage-deep);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+  display: block;
+}
+.modal-details-sec h2 {
+  font-size: 2rem;
+  margin-bottom: 12px;
+  line-height: 1.15;
+}
+.modal-price {
+  font-family: 'Fraunces', serif;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--terracotta-deep);
+  margin-bottom: 20px;
+}
+.modal-details-sec .desc {
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: var(--cocoa);
+  margin-bottom: 26px;
+}
+
+.modal-features {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 30px;
+  border-top: 1px dashed rgba(61, 43, 31, 0.15);
+  border-bottom: 1px dashed rgba(61, 43, 31, 0.15);
+  padding: 16px 0;
+}
+.feat-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  color: var(--espresso);
+  font-weight: 500;
+}
+.feat-item span:first-child {
+  font-size: 1.1rem;
+}
+
+.modal-actions-row {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+.qty-picker {
+  display: flex;
+  align-items: center;
+  background: rgba(61, 43, 31, 0.05);
+  border-radius: 100px;
+  padding: 5px;
+}
+.qty-picker button {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+.qty-picker button:hover {
+  background: var(--sand);
+}
+.qty-picker span {
+  width: 28px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.modal-add-btn {
+  flex: 1;
+  background: var(--espresso);
+  color: var(--linen);
+  padding: 14px 28px;
+  border-radius: 100px;
+  font-weight: 600;
+  font-size: 0.98rem;
+  transition: background 0.2s ease, transform 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-add-btn:hover {
+  background: var(--terracotta-deep);
+  transform: translateY(-1px);
+}
+
 /* ============ RESPONSIVE ============ */
 @media (max-width: 900px) {
   .nav-links { display: none; }
@@ -419,6 +603,9 @@ footer ul a:hover, footer ul button:hover { color: var(--linen); }
   .checkout-grid { grid-template-columns: 1fr; }
   .order-summary { position: static; }
   .form-row { grid-template-columns: 1fr; }
+  .modal-grid { grid-template-columns: 1fr; }
+  .modal-image-sec { height: 280px; padding: 20px; }
+  .modal-details-sec { padding: 30px; }
 }
 @media (max-width: 560px) {
   .wrap { padding: 0 20px; }
@@ -426,4 +613,10 @@ footer ul a:hover, footer ul button:hover { color: var(--linen); }
   .hero { padding: 50px 0 20px; }
   .logo span.txt { font-size: 1.25rem; }
   .drawer { width: 100%; max-width: 100vw; }
+  .modal-details-sec { padding: 20px; }
+  .modal-price { font-size: 1.4rem; margin-bottom: 14px; }
+  .modal-details-sec h2 { font-size: 1.6rem; }
+  .modal-actions-row { flex-direction: column; align-items: stretch; gap: 12px; }
+  .qty-picker { justify-content: center; }
+  .modal-add-btn { width: 100%; }
 }
