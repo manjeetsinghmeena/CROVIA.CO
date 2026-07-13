@@ -21,6 +21,9 @@ const FALLBACK_PRODUCTS: Product[] = [
   { id: 'p6', category: 'florals', name: 'Sunflower Pot', description: 'A cheerful hand-crocheted sunflower in a rustic jute pot — bring sunshine to any desk or shelf.', price: 249, tag: null, gradient: 'linear-gradient(135deg,#f4d35e,#8A9A5B)', icon: 'sunflower', image: '/images/sunflower-pot.jpg' },
   { id: 'p7', category: 'florals', name: 'Dual Shade Lily Pot', description: 'A delicate pink-and-red crocheted lily with golden stamens, nestled in a jute pot.', price: 299, tag: null, gradient: 'linear-gradient(135deg,#f9c6d0,#c1476b)', icon: 'lily', image: '/images/dual-shade-lily-pot.jpg' },
   { id: 'p8', category: 'florals', name: 'Rose Pot', description: 'A soft pink crocheted rose in a cozy jute pot — a timeless gift that never wilts.', price: 249, tag: null, gradient: 'linear-gradient(135deg,#f4a0b5,#8fbc8f)', icon: 'rose', image: '/images/rose-pot.jpg' },
+  { id: 'p9', category: 'amigurumi', name: 'Bunny Lippie Holder/Keychain', description: 'A charming hand-crocheted bunny sleeve to keep your lip balm secure on your keys or bag.', price: 120, tag: null, gradient: 'linear-gradient(135deg,#FFF5EE,#FFB6C1)', icon: 'bunny', image: '/images/bunny-lippie-holder.jpg' },
+  { id: 'p10', category: 'amigurumi', name: 'Mushroom Lippie Holder/Keychain', description: 'A cute red-and-white crocheted mushroom cap sleeve for keeping your lip balm cozy.', price: 120, tag: null, gradient: 'linear-gradient(135deg,#E63946,#F1FAEE)', icon: 'mushroom', image: '/images/mushroom-lippie-holder.jpg' },
+  { id: 'p11', category: 'amigurumi', name: 'Lippie Holder Combo', description: 'Double the cozy! A combo pack containing both Bunny and Mushroom lippie holders.', price: 230, tag: null, gradient: 'linear-gradient(135deg,#FFD1DC,#83677B)', icon: 'combo', image: '/images/lippie-holder-combo.jpg' },
 ];
 
 const CATEGORIES = [
