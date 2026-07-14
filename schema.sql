@@ -5,7 +5,7 @@
 CREATE TABLE IF NOT EXISTS public.products (
     id TEXT PRIMARY KEY, -- p1, p2, etc.
     name TEXT NOT NULL,
-    category TEXT NOT NULL, -- bags, amigurumi, wearables
+    category TEXT NOT NULL, -- bags, keychain, wearables
     description TEXT,
     price NUMERIC NOT NULL,
     tag TEXT,
@@ -24,12 +24,12 @@ CREATE POLICY "Allow public read access to products" ON public.products
 -- 2. Populate Products Table with Initial Data
 INSERT INTO public.products (id, name, category, description, price, tag, gradient, icon)
 VALUES
-  ('p1', 'Starfish Keychain', 'amigurumi', 'A chunky hand-crocheted starfish with googly eyes — clip it to your bag or keys for a daily dose of cozy.', 99, NULL, 'linear-gradient(135deg,#2C2C2C,#1a1a1a)', 'starfish'),
-  ('p2', 'Hidden Love Pot', 'amigurumi', 'A pair of hand-crocheted tulip pots in blush pink & cream — a sweet, silent way to say "you matter."', 349, NULL, 'linear-gradient(135deg,#f9c6d0,#a8d5a2)', 'bear'),
-  ('p3', 'Turtle Keychain', 'amigurumi', 'Adorable hand-crocheted turtle buddies to clip onto your backpack, keys, or purse.', 199, NULL, 'linear-gradient(135deg,#93C5FD,#3B82F6)', 'turtle'),
+  ('p1', 'Starfish Keychain', 'keychain', 'A chunky hand-crocheted starfish with googly eyes — clip it to your bag or keys for a daily dose of cozy.', 99, NULL, 'linear-gradient(135deg,#2C2C2C,#1a1a1a)', 'starfish'),
+  ('p2', 'Hidden Love Pot', 'keychain', 'A pair of hand-crocheted tulip pots in blush pink & cream — a sweet, silent way to say "you matter."', 349, NULL, 'linear-gradient(135deg,#f9c6d0,#a8d5a2)', 'bear'),
+  ('p3', 'Turtle Keychain', 'keychain', 'Adorable hand-crocheted turtle buddies to clip onto your backpack, keys, or purse.', 199, NULL, 'linear-gradient(135deg,#93C5FD,#3B82F6)', 'turtle'),
   ('p4', 'Wavy Scarf', 'wearables', 'Long, drapey scarf with a soft wave texture stitch.', 999, NULL, 'linear-gradient(135deg,#E8C4A0,#8A9A5B)', 'scarf'),
   ('p5', 'Mini Pouch Duo', 'bags', 'Set of two coin pouches — perfect for cards, keys, or lip balm.', 549, NULL, 'linear-gradient(135deg,#707D49,#3D2B1F)', 'pouch'),
-  ('p6', 'Tiny Fox Keychain', 'amigurumi', 'A pocket-sized fox friend to clip onto your bag or keys.', 399, NULL, 'linear-gradient(135deg,#C16E4A,#E8C4A0)', 'fox')
+  ('p6', 'Tiny Fox Keychain', 'keychain', 'A pocket-sized fox friend to clip onto your bag or keys.', 399, NULL, 'linear-gradient(135deg,#C16E4A,#E8C4A0)', 'fox')
 ON CONFLICT (id) DO UPDATE SET
   name = EXCLUDED.name,
   category = EXCLUDED.category,

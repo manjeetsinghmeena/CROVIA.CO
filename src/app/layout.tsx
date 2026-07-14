@@ -25,7 +25,7 @@ const caveat = Caveat({
 
 export const metadata: Metadata = {
   title: "Croviaa.co — Handmade Crochet, Made With Love",
-  description: "Croviaa.co is a tiny crochet studio making cozy bags, wearables, and amigurumi friends — each piece hand-hooked, one at a time, just for you.",
+  description: "Croviaa.co is a tiny crochet studio making cozy bags, wearables, and keychain friends — each piece hand-hooked, one at a time, just for you.",
 };
 
 export default function RootLayout({

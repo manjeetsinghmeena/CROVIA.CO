@@ -13,23 +13,23 @@ import { SuccessPage } from '@/components/SuccessPage';
 const FALLBACK_REVIEWS: Review[] = [];
 
 const FALLBACK_PRODUCTS: Product[] = [
-  { id: 'p1', category: 'amigurumi', name: 'Starfish Keychain', description: 'A chunky hand-crocheted starfish with googly eyes — clip it to your bag or keys for a daily dose of cozy.', price: 99, tag: null, gradient: 'linear-gradient(135deg,#2C2C2C,#1a1a1a)', icon: 'starfish', image: '/images/starfish-keychain.jpg' },
-  { id: 'p2', category: 'amigurumi', name: 'Hidden Love Pot', description: 'A pair of hand-crocheted tulip pots in blush pink & cream — a sweet, silent way to say “you matter.”', price: 349, tag: null, gradient: 'linear-gradient(135deg,#f9c6d0,#a8d5a2)', icon: 'bear', image: '/images/hidden-love-pot.jpg', imagePosition: 'center 85%' },
-  { id: 'p3', category: 'amigurumi', name: 'Turtle Keychain', description: 'Adorable hand-crocheted turtle buddies to clip onto your backpack, keys, or purse.', price: 199, tag: null, gradient: 'linear-gradient(135deg,#93C5FD,#3B82F6)', icon: 'turtle', image: '/images/turtle-keychain.jpg' },
+  { id: 'p1', category: 'keychains', name: 'Starfish Keychain', description: 'A chunky hand-crocheted starfish with googly eyes — clip it to your bag or keys for a daily dose of cozy.', price: 99, tag: null, gradient: 'linear-gradient(135deg,#2C2C2C,#1a1a1a)', icon: 'starfish', image: '/images/starfish-keychain.jpg' },
+  { id: 'p2', category: 'keychains', name: 'Hidden Love Pot', description: 'A pair of hand-crocheted tulip pots in blush pink & cream — a sweet, silent way to say “you matter.”', price: 349, tag: null, gradient: 'linear-gradient(135deg,#f9c6d0,#a8d5a2)', icon: 'bear', image: '/images/hidden-love-pot.jpg', imagePosition: 'center 85%' },
+  { id: 'p3', category: 'keychains', name: 'Turtle Keychain', description: 'Adorable hand-crocheted turtle buddies to clip onto your backpack, keys, or purse.', price: 199, tag: null, gradient: 'linear-gradient(135deg,#93C5FD,#3B82F6)', icon: 'turtle', image: '/images/turtle-keychain.jpg' },
   { id: 'p4', category: 'florals', name: 'Tulip Bouquet', description: 'A gorgeous hand-crocheted tulip bouquet in pink, cream & red — wrapped in kraft paper with a satin ribbon.', price: 599, tag: null, gradient: 'linear-gradient(135deg,#f9c6d0,#e85d75)', icon: 'tulip', image: '/images/tulip-bouquet.jpg' },
   { id: 'p5', category: 'florals', name: 'Double Lily Pot', description: 'Two vibrant red crocheted lilies with golden stamens, potted in a cozy jute planter.', price: 349, tag: null, gradient: 'linear-gradient(135deg,#e63946,#f4a261)', icon: 'lily', image: '/images/double-lily-pot.jpg' },
   { id: 'p6', category: 'florals', name: 'Sunflower Pot', description: 'A cheerful hand-crocheted sunflower in a rustic jute pot — bring sunshine to any desk or shelf.', price: 249, tag: null, gradient: 'linear-gradient(135deg,#f4d35e,#8A9A5B)', icon: 'sunflower', image: '/images/sunflower-pot.jpg' },
   { id: 'p7', category: 'florals', name: 'Dual Shade Lily Pot', description: 'A delicate pink-and-red crocheted lily with golden stamens, nestled in a jute pot.', price: 299, tag: null, gradient: 'linear-gradient(135deg,#f9c6d0,#c1476b)', icon: 'lily', image: '/images/dual-shade-lily-pot.jpg' },
   { id: 'p8', category: 'florals', name: 'Rose Pot', description: 'A soft pink crocheted rose in a cozy jute pot — a timeless gift that never wilts.', price: 249, tag: null, gradient: 'linear-gradient(135deg,#f4a0b5,#8fbc8f)', icon: 'rose', image: '/images/rose-pot.jpg' },
-  { id: 'p9', category: 'amigurumi', name: 'Bunny Lippie Holder/Keychain', description: 'A charming hand-crocheted bunny sleeve to keep your lip balm secure on your keys or bag.', price: 120, tag: null, gradient: 'linear-gradient(135deg,#FFF5EE,#FFB6C1)', icon: 'bunny', image: '/images/bunny-lippie-holder.jpg' },
-  { id: 'p10', category: 'amigurumi', name: 'Mushroom Lippie Holder/Keychain', description: 'A cute red-and-white crocheted mushroom cap sleeve for keeping your lip balm cozy.', price: 120, tag: null, gradient: 'linear-gradient(135deg,#E63946,#F1FAEE)', icon: 'mushroom', image: '/images/mushroom-lippie-holder.jpg' },
-  { id: 'p11', category: 'amigurumi', name: 'Lippie Holder Combo', description: 'Double the cozy! A combo pack containing both Bunny and Mushroom lippie holders.', price: 230, tag: null, gradient: 'linear-gradient(135deg,#FFD1DC,#83677B)', icon: 'combo', image: '/images/lippie-holder-combo.jpg' },
+  { id: 'p9', category: 'keychains', name: 'Bunny Lippie Holder/Keychain', description: 'A charming hand-crocheted bunny sleeve to keep your lip balm secure on your keys or bag.', price: 120, tag: null, gradient: 'linear-gradient(135deg,#FFF5EE,#FFB6C1)', icon: 'bunny', image: '/images/bunny-lippie-holder.jpg' },
+  { id: 'p10', category: 'keychains', name: 'Mushroom Lippie Holder/Keychain', description: 'A cute red-and-white crocheted mushroom cap sleeve for keeping your lip balm cozy.', price: 120, tag: null, gradient: 'linear-gradient(135deg,#E63946,#F1FAEE)', icon: 'mushroom', image: '/images/mushroom-lippie-holder.jpg' },
+  { id: 'p11', category: 'keychains', name: 'Lippie Holder Combo', description: 'Double the cozy! A combo pack containing both Bunny and Mushroom lippie holders.', price: 230, tag: null, gradient: 'linear-gradient(135deg,#FFD1DC,#83677B)', icon: 'combo', image: '/images/lippie-holder-combo.jpg' },
 ];
 
 const CATEGORIES = [
   { key: 'all', label: 'All' },
   { key: 'florals', label: 'Florals' },
-  { key: 'amigurumi', label: 'Amigurumi' },
+  { key: 'keychains', label: 'Keychains' },
 ];
 
 export default function Home() {
@@ -320,7 +320,7 @@ export default function Home() {
                   <br />
                   one loop at a <span className="accent">time.</span>
                 </h1>
-                <p className="lede">Croviaa.co is a tiny crochet studio making cozy bags, wearables, and amigurumi friends — each piece hand-hooked, one at a time, just for you.</p>
+                <p className="lede">Croviaa.co is a tiny crochet studio making cozy bags, wearables, and keychain friends — each piece hand-hooked, one at a time, just for you.</p>
                 <div className="hero-actions">
                   <button className="btn-primary" onClick={() => handleScrollToSection('shop-section')}>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="18" height="18">
@@ -391,7 +391,7 @@ export default function Home() {
               <div>
                 <span className="section-label">The Maker's Note</span>
                 <h2>Every stitch has a story — and a little bit of patience.</h2>
-                <p>Croviaa.co started the way most cozy things do: with one hook, one ball of yarn, and way too much YouTube tutorial watching at 1am. What began as a quiet hobby turned into a tiny home studio making bags, wearables, and squishy little amigurumi friends for anyone who loves things made slowly and on purpose.</p>
+                <p>Croviaa.co started the way most cozy things do: with one hook, one ball of yarn, and way too much YouTube tutorial watching at 1am. What began as a quiet hobby turned into a tiny home studio making bags, wearables, and squishy little keychain friends for anyone who loves things made slowly and on purpose.</p>
                 <p>Nothing here is mass-produced. Every order is counted, looped, and tied off by hand — which means small wait times, but a piece that's really, truly yours.</p>
                 <p className="about-sign">— with love, Croviaa.co</p>
               </div>
@@ -531,7 +531,7 @@ export default function Home() {
                 <span className="section-label">Kind Words</span>
                 <h2>Loved by cozy people everywhere.</h2>
               </div>
-              
+
               {reviews.length > 0 ? (
                 <div className="reviews-grid-wrapper">
                   <div className="quote-grid">
@@ -606,7 +606,7 @@ export default function Home() {
                       />
                     </div>
                   </div>
-                  
+
                   <div className="form-group-review">
                     <label>Rating</label>
                     <div className="rating-selector">
@@ -637,7 +637,7 @@ export default function Home() {
                       required
                     ></textarea>
                   </div>
-                  
+
                   <button type="submit" className="submit-review-btn" disabled={submittingReview}>
                     {submittingReview ? 'Submitting...' : 'Submit Review'}
                   </button>
@@ -771,7 +771,7 @@ export default function Home() {
                   <img src="/images/logo.jpg" alt="Croviaa.co Logo" className="logo-img" />
                   Croviaa.co
                 </div>
-                <p className="blurb">Handmade crochet bags, wearables, and amigurumi — made slowly, with love, one loop at a time.</p>
+                <p className="blurb">Handmade crochet bags, wearables, and keychain — made slowly, with love, one loop at a time.</p>
               </div>
               <div>
                 <h4>Explore</h4>
@@ -866,7 +866,7 @@ export default function Home() {
                 <h2>{selectedProduct.name}</h2>
                 <div className="modal-price">₹{selectedProduct.price}</div>
                 <p className="desc">{selectedProduct.description}</p>
-                
+
                 <div className="modal-features">
                   <div className="feat-item">
                     <span>🧶</span>
